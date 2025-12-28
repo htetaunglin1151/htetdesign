@@ -141,6 +141,7 @@ main {
   font-size: 1.5rem;
   color: var(--muted);
   line-height: 1.8;
+  font-size: small;
 }
 
 /* Projects Grid */
@@ -242,6 +243,17 @@ footer {
   margin: 0 auto;
   padding: 0 1.5rem;
 }
+
+.material-symbols-outlined {
+  font-size: 24px;
+  color: currentColor;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
 
 .social-icons {
   display: flex;
