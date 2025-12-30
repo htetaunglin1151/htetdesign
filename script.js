@@ -54,13 +54,16 @@ if (menuToggle && navLinksContainer) {
   });
 }
 
-// Prevent nav links default for now (until anchors are added)
-// NOTE: This will also block real links like sandbox.html.
-// If you want sandbox.html to work, remove this block or add a condition.
+// Prevent nav links default for anchor links, but allow external navigation
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', (e) => {
-    e.preventDefault();
-    console.log('Navigation clicked:', link.textContent);
+    const href = link.getAttribute('href');
+    // Allow navigation for actual page links (like sandbox.html)
+    // Only prevent default for anchor-only links (#)
+    if (href === '#') {
+      e.preventDefault();
+      console.log('Navigation clicked:', link.textContent);
+    }
   });
 });
 
@@ -176,5 +179,163 @@ updateNYCTime();
 
 // Update every minute
 setInterval(updateNYCTime, 60000);
+
+// Gallery swipe functionality
+function initGallery() {
+  const galleryTrack = document.getElementById('galleryTrack');
+  const indicators = document.querySelectorAll('.indicator');
+  
+  if (!galleryTrack || indicators.length === 0) return;
+
+  let currentIndex = 0;
+  const slides = galleryTrack.querySelectorAll('.gallery-slide');
+  const totalSlides = slides.length;
+
+  function updateGallery() {
+    galleryTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+    
+    indicators.forEach((indicator, index) => {
+      if (index === currentIndex) {
+        indicator.classList.add('active');
+      } else {
+        indicator.classList.remove('active');
+      }
+    });
+  }
+
+  // Indicator click handlers
+  indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+      currentIndex = index;
+      updateGallery();
+    });
+  });
+
+  // Touch swipe handlers
+  let startX = 0;
+  let endX = 0;
+  let isDragging = false;
+  let startTranslate = 0;
+  let currentTranslate = 0;
+
+  const galleryContainer = galleryTrack.parentElement;
+
+  galleryContainer.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    startTranslate = currentIndex * -100;
+    galleryTrack.style.transition = 'none';
+  });
+
+  galleryContainer.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    currentTranslate = startTranslate + (diff / galleryContainer.offsetWidth) * 100;
+    
+    // Constrain the translate
+    const minTranslate = -(totalSlides - 1) * 100;
+    const maxTranslate = 0;
+    currentTranslate = Math.max(minTranslate, Math.min(maxTranslate, currentTranslate));
+    
+    galleryTrack.style.transform = `translateX(${currentTranslate}%)`;
+  });
+
+  galleryContainer.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    galleryTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+
+    // Get the end position from the changedTouches (more reliable than currentX)
+    endX = e.changedTouches[0].clientX;
+    const threshold = 0.15; // 15% of slide width
+    const diff = endX - startX;
+    const slideWidth = galleryContainer.offsetWidth;
+
+    if (Math.abs(diff) > slideWidth * threshold) {
+      // Swipe left (finger moved left, negative diff) = show next slide (increase index)
+      if (diff < 0 && currentIndex < totalSlides - 1) {
+        currentIndex++;
+      } 
+      // Swipe right (finger moved right, positive diff) = show previous slide (decrease index)
+      else if (diff > 0 && currentIndex > 0) {
+        currentIndex--;
+      }
+    }
+
+    updateGallery();
+  });
+
+  // Mouse drag handlers for desktop
+  let mouseStartX = 0;
+  let mouseIsDragging = false;
+  let mouseStartTranslate = 0;
+  let mouseCurrentTranslate = 0;
+
+  galleryContainer.addEventListener('mousedown', (e) => {
+    mouseStartX = e.clientX;
+    mouseIsDragging = true;
+    mouseStartTranslate = currentIndex * -100;
+    galleryTrack.style.transition = 'none';
+    galleryContainer.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  galleryContainer.addEventListener('mousemove', (e) => {
+    if (!mouseIsDragging) return;
+    const diff = e.clientX - mouseStartX;
+    mouseCurrentTranslate = mouseStartTranslate + (diff / galleryContainer.offsetWidth) * 100;
+    
+    // Constrain the translate
+    const minTranslate = -(totalSlides - 1) * 100;
+    const maxTranslate = 0;
+    mouseCurrentTranslate = Math.max(minTranslate, Math.min(maxTranslate, mouseCurrentTranslate));
+    
+    galleryTrack.style.transform = `translateX(${mouseCurrentTranslate}%)`;
+  });
+
+  galleryContainer.addEventListener('mouseup', (e) => {
+    if (!mouseIsDragging) return;
+    mouseIsDragging = false;
+    galleryTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+    galleryContainer.style.cursor = 'grab';
+
+    const threshold = 0.15; // 15% of slide width (lowered for better responsiveness)
+    const diff = e.clientX - mouseStartX;
+    const slideWidth = galleryContainer.offsetWidth;
+
+    if (Math.abs(diff) > slideWidth * threshold) {
+      // Swipe left (negative diff) = move to next slide (increase index)
+      if (diff < 0 && currentIndex < totalSlides - 1) {
+        currentIndex++;
+      } 
+      // Swipe right (positive diff) = move to previous slide (decrease index)
+      else if (diff > 0 && currentIndex > 0) {
+        currentIndex--;
+      }
+    }
+
+    updateGallery();
+  });
+
+  galleryContainer.addEventListener('mouseleave', () => {
+    if (mouseIsDragging) {
+      mouseIsDragging = false;
+      galleryTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+      galleryContainer.style.cursor = 'grab';
+      updateGallery();
+    }
+  });
+
+  // Set initial cursor
+  galleryContainer.style.cursor = 'grab';
+}
+
+// Initialize gallery when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initGallery);
+} else {
+  initGallery();
+}
 
 console.log('Portfolio website loaded successfully!');
