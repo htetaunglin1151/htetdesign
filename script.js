@@ -2,16 +2,14 @@
 
 // Navbar scroll effect
 const navbar = document.getElementById('navbar');
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
+}
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 20) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
-
-// Mobile menu toggle (SVG icons, no Material Icons)
+// Mobile menu toggle
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinksContainer = document.getElementById('navLinks');
 
@@ -38,9 +36,7 @@ if (menuToggle && navLinksContainer) {
 
   // Close menu when clicking a link (mobile)
   navLinksContainer.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      closeMenu();
-    });
+    link.addEventListener('click', () => closeMenu());
   });
 
   // Close on Escape key for accessibility
@@ -54,12 +50,10 @@ if (menuToggle && navLinksContainer) {
   });
 }
 
-// Prevent nav links default for anchor links, but allow external navigation
+// Prevent nav links default for anchor links (# only)
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', (e) => {
     const href = link.getAttribute('href');
-    // Allow navigation for actual page links (like sandbox.html)
-    // Only prevent default for anchor-only links (#)
     if (href === '#') {
       e.preventDefault();
       console.log('Navigation clicked:', link.textContent);
@@ -67,7 +61,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
   });
 });
 
-// Project card hover effects enhancement
+// Project card hover effects enhancement (only if cards exist)
 const projectCards = document.querySelectorAll('.project-card');
 
 projectCards.forEach(card => {
@@ -87,23 +81,25 @@ projectCards.forEach(card => {
   });
 });
 
-// Intersection Observer for scroll animations
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
+// Intersection Observer for scroll animations (only if cards exist)
+if (projectCards.length) {
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
 
-projectCards.forEach(card => observer.observe(card));
+  projectCards.forEach(card => observer.observe(card));
+}
 
 // Social link interactions
 document.querySelectorAll('.social-link').forEach(link => {
@@ -151,10 +147,13 @@ document.querySelectorAll('.nav-link.slot').forEach((link) => {
   link.appendChild(wrap);
 });
 
+// NYC time (safe on pages without #nyc-time)
 function updateNYCTime() {
+  const nycEl = document.getElementById('nyc-time');
+  if (!nycEl) return;
+
   const now = new Date();
 
-  // Format time for NYC (America/New_York timezone)
   const options = {
     timeZone: 'America/New_York',
     hour: 'numeric',
@@ -171,171 +170,44 @@ function updateNYCTime() {
   const time = now.toLocaleString('en-US', options);
   const date = now.toLocaleString('en-US', dateOptions);
 
-  document.getElementById('nyc-time').textContent = `${time}, ${date}`;
+  nycEl.textContent = `${time}, ${date}`;
 }
 
-// Update immediately
+// Update immediately + every minute (won't do anything if element missing)
 updateNYCTime();
-
-// Update every minute
 setInterval(updateNYCTime, 60000);
 
-// Gallery swipe functionality
-function initGallery() {
-  const galleryTrack = document.getElementById('galleryTrack');
-  const indicators = document.querySelectorAll('.indicator');
-  
-  if (!galleryTrack || indicators.length === 0) return;
+// Sandbox sliders (supports multiple sliders on the same page)
+document.querySelectorAll('.right').forEach((right) => {
+  const track = right.querySelector('.track');
+  const slides = right.querySelectorAll('.slide');
+  const dotsWrap = right.querySelector('.dots');
 
-  let currentIndex = 0;
-  const slides = galleryTrack.querySelectorAll('.gallery-slide');
-  const totalSlides = slides.length;
+  if (!track || !slides.length || !dotsWrap) return;
 
-  function updateGallery() {
-    galleryTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-    
-    indicators.forEach((indicator, index) => {
-      if (index === currentIndex) {
-        indicator.classList.add('active');
-      } else {
-        indicator.classList.remove('active');
-      }
-    });
+  dotsWrap.innerHTML = '';
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    if (i === 0) dot.classList.add('active');
+
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  const dots = dotsWrap.querySelectorAll('.dot');
+
+  function goTo(index) {
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    current = index;
   }
 
-  // Indicator click handlers
-  indicators.forEach((indicator, index) => {
-    indicator.addEventListener('click', () => {
-      currentIndex = index;
-      updateGallery();
-    });
-  });
+  goTo(0);
+});
 
-  // Touch swipe handlers
-  let startX = 0;
-  let endX = 0;
-  let isDragging = false;
-  let startTranslate = 0;
-  let currentTranslate = 0;
 
-  const galleryContainer = galleryTrack.parentElement;
-
-  galleryContainer.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    startTranslate = currentIndex * -100;
-    galleryTrack.style.transition = 'none';
-  });
-
-  galleryContainer.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    const currentX = e.touches[0].clientX;
-    const diff = currentX - startX;
-    currentTranslate = startTranslate + (diff / galleryContainer.offsetWidth) * 100;
-    
-    // Constrain the translate
-    const minTranslate = -(totalSlides - 1) * 100;
-    const maxTranslate = 0;
-    currentTranslate = Math.max(minTranslate, Math.min(maxTranslate, currentTranslate));
-    
-    galleryTrack.style.transform = `translateX(${currentTranslate}%)`;
-  });
-
-  galleryContainer.addEventListener('touchend', (e) => {
-    if (!isDragging) return;
-    isDragging = false;
-    galleryTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-
-    // Get the end position from the changedTouches (more reliable than currentX)
-    endX = e.changedTouches[0].clientX;
-    const threshold = 0.15; // 15% of slide width
-    const diff = endX - startX;
-    const slideWidth = galleryContainer.offsetWidth;
-
-    if (Math.abs(diff) > slideWidth * threshold) {
-      // Swipe left (finger moved left, negative diff) = show next slide (increase index)
-      if (diff < 0 && currentIndex < totalSlides - 1) {
-        currentIndex++;
-      } 
-      // Swipe right (finger moved right, positive diff) = show previous slide (decrease index)
-      else if (diff > 0 && currentIndex > 0) {
-        currentIndex--;
-      }
-    }
-
-    updateGallery();
-  });
-
-  // Mouse drag handlers for desktop
-  let mouseStartX = 0;
-  let mouseIsDragging = false;
-  let mouseStartTranslate = 0;
-  let mouseCurrentTranslate = 0;
-
-  galleryContainer.addEventListener('mousedown', (e) => {
-    mouseStartX = e.clientX;
-    mouseIsDragging = true;
-    mouseStartTranslate = currentIndex * -100;
-    galleryTrack.style.transition = 'none';
-    galleryContainer.style.cursor = 'grabbing';
-    e.preventDefault();
-  });
-
-  galleryContainer.addEventListener('mousemove', (e) => {
-    if (!mouseIsDragging) return;
-    const diff = e.clientX - mouseStartX;
-    mouseCurrentTranslate = mouseStartTranslate + (diff / galleryContainer.offsetWidth) * 100;
-    
-    // Constrain the translate
-    const minTranslate = -(totalSlides - 1) * 100;
-    const maxTranslate = 0;
-    mouseCurrentTranslate = Math.max(minTranslate, Math.min(maxTranslate, mouseCurrentTranslate));
-    
-    galleryTrack.style.transform = `translateX(${mouseCurrentTranslate}%)`;
-  });
-
-  galleryContainer.addEventListener('mouseup', (e) => {
-    if (!mouseIsDragging) return;
-    mouseIsDragging = false;
-    galleryTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-    galleryContainer.style.cursor = 'grab';
-
-    const threshold = 0.15; // 15% of slide width (lowered for better responsiveness)
-    const diff = e.clientX - mouseStartX;
-    const slideWidth = galleryContainer.offsetWidth;
-
-    if (Math.abs(diff) > slideWidth * threshold) {
-      // Swipe left (negative diff) = move to next slide (increase index)
-      if (diff < 0 && currentIndex < totalSlides - 1) {
-        currentIndex++;
-      } 
-      // Swipe right (positive diff) = move to previous slide (decrease index)
-      else if (diff > 0 && currentIndex > 0) {
-        currentIndex--;
-      }
-    }
-
-    updateGallery();
-  });
-
-  galleryContainer.addEventListener('mouseleave', () => {
-    if (mouseIsDragging) {
-      mouseIsDragging = false;
-      galleryTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-      galleryContainer.style.cursor = 'grab';
-      updateGallery();
-    }
-  });
-
-  // Set initial cursor
-  galleryContainer.style.cursor = 'grab';
-}
-
-// Initialize gallery when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initGallery);
-} else {
-  initGallery();
-}
 
 console.log('Portfolio website loaded successfully!');
