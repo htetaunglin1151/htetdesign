@@ -480,18 +480,6 @@ main {
   }
 }
 
-/* Mobile: hide dots */
-@media (max-width: 768px) {
-  .dots {
-    display: none;
-  }
-
-  /* optional: helps prevent accidental image drag */
-  .slide {
-    user-select: none;
-    -webkit-user-drag: none;
-  }
-}
 
 
 /* End of Sandbox Page */
