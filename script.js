@@ -208,6 +208,84 @@ document.querySelectorAll('.right').forEach((right) => {
   goTo(0);
 });
 
+// Swipe slider for mobile (supports multiple sliders)
+document.querySelectorAll('.right').forEach((right) => {
+  const track = right.querySelector('.track');
+  const slides = Array.from(right.querySelectorAll('.slide'));
+  const dotsWrap = right.querySelector('.dots'); // can exist, but hidden on mobile
+
+  if (!track || slides.length === 0) return;
+
+  let index = 0;
+  let startX = 0;
+  let currentX = 0;
+  let isTouching = false;
+
+  // If dots exist, build them (desktop). On mobile they are hidden by CSS.
+  let dots = [];
+  if (dotsWrap) {
+    dotsWrap.innerHTML = '';
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.className = 'dot';
+      b.type = 'button';
+      b.setAttribute('aria-label', `Slide ${i + 1}`);
+      b.addEventListener('click', () => goTo(i, true));
+      dotsWrap.appendChild(b);
+    });
+    dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+  }
+
+  function setDots() {
+    if (!dots.length) return;
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+  }
+
+  function goTo(i, animate) {
+    index = Math.max(0, Math.min(i, slides.length - 1));
+    track.style.transition = animate ? 'transform 300ms ease' : 'none';
+    track.style.transform = `translateX(-${index * 100}%)`;
+    setDots();
+  }
+
+  // Init
+  goTo(0, true);
+
+  // Touch swipe
+  track.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    isTouching = true;
+    startX = e.touches[0].clientX;
+    currentX = startX;
+    track.style.transition = 'none';
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    if (!isTouching) return;
+    currentX = e.touches[0].clientX;
+    const dx = currentX - startX;
+
+    // drag a bit while swiping
+    track.style.transform = `translateX(calc(-${index * 100}% + ${dx}px))`;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    if (!isTouching) return;
+    isTouching = false;
+
+    const dx = currentX - startX;
+    const threshold = 60; // swipe sensitivity
+
+    if (dx < -threshold) index += 1;      // swipe left
+    else if (dx > threshold) index -= 1;  // swipe right
+
+    goTo(index, true);
+  });
+
+  // Optional: keep correct slide on resize
+  window.addEventListener('resize', () => goTo(index, false));
+});
+
 
 
 console.log('Portfolio website loaded successfully!');

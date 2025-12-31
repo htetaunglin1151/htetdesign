@@ -377,7 +377,7 @@ main {
 /* Sandbox Page */
 /* Left Column Styles */
 .wrap {
-  max-width: 1500px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 40px 20px;
 }
@@ -479,6 +479,20 @@ main {
     height: 260px;
   }
 }
+
+/* Mobile: hide dots */
+@media (max-width: 768px) {
+  .dots {
+    display: none;
+  }
+
+  /* optional: helps prevent accidental image drag */
+  .slide {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
 
 /* End of Sandbox Page */
 .divider{
