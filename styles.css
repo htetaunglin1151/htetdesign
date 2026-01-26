@@ -377,7 +377,7 @@ main {
 /* Sandbox Page */
 /* Left Column Styles */
 .wrap {
-  max-width: 1280px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 40px 20px;
 }
@@ -392,7 +392,6 @@ main {
 
 .left h1 {
   font-size: 3rem;
-  font-style: italic;
   font-weight: 400;
   margin-bottom: 12px;
 }
@@ -406,12 +405,11 @@ main {
 .meta {
   margin-top: 20px;
   display: grid;
-  gap: 12px;
+  gap: 20px;
 }
 
 .meta div {
   display: grid;
-  gap: 4px;
 }
 
 .meta strong {
@@ -422,7 +420,7 @@ main {
 }
 
 .meta span {
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .slider {
@@ -446,8 +444,6 @@ main {
   object-fit: cover;
   display: block;
 }
-
-
 
 .dots {
   display: flex;
