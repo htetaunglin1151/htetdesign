@@ -109,7 +109,7 @@ h3 {
 }
 
 .time {
-  color: #00ff88;
+  color: #34DA30;
   white-space: nowrap;
   position: relative;
   animation: glow 2s ease-in-out infinite;
@@ -120,11 +120,11 @@ h3 {
 
   0%,
   100% {
-    text-shadow: 0 0 5px #00ff88;
+    text-shadow: 0 0 5px #34DA30;
   }
 
   50% {
-    text-shadow: 0 0 12px #00ff88, 0 0 20px #00ff88;
+    text-shadow: 0 0 12px #34DA30, 0 0 20px #34DA30;
   }
 }
 
@@ -157,7 +157,7 @@ h3 {
   position: absolute;
   width: 4px;
   height: 4px;
-  background: #00ff88;
+  background: #34DA30;
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
@@ -225,7 +225,7 @@ a:hover {
 
 .desktop-header__time {
   flex-shrink: 0;
-  color: #34da30;
+  color: #34DA30;
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   white-space: nowrap;
@@ -440,7 +440,7 @@ main {
 }
 
 .hero-ipa {
-  color: #34da30;
+  color: #34DA30;
 }
 
 .hero-white {
@@ -454,7 +454,7 @@ main {
 }
 
 .company {
-  color: #34da30;
+  color: #34DA30;
   text-decoration: none;
 }
 
@@ -471,7 +471,7 @@ main {
 .time-display {
   padding: 4px 12px;
   border-radius: 999px;
-  border: 1px solid #34da30;
+  border: 1px solid #34DA30;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -586,7 +586,7 @@ main {
 }
 
 .project-name {
-  color: #97ff00;
+  color: #34DA30;
   font-size: 0.875rem;
   font-weight: 400;
   margin-bottom: 0.35rem;
@@ -965,7 +965,7 @@ footer {
   .mobile-header__time {
     font-size: 1rem;
     line-height: 1.2;
-    color: #34da30;
+    color: #34DA30;
     margin: 0.4rem 0 0;
   }
 
