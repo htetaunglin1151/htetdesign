@@ -1,83 +1,66 @@
-<!-- index.html -->
+<!-- sandbox.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Htet Aung Lin</title>
+  <title>Sandbox — Htet Aung Lin</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
-  <nav id="navbar">
-    <div class="nav-container">
-      <div class="logo">HAL</div>
-
-      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-        <!-- hamburger icon -->
-        <svg class="icon icon-menu" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-
-        <!-- close icon -->
-        <svg class="icon icon-close" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-      </button>
-
-      <div class="nav-links" id="navLinks">
-        <a href="index.html" class="nav-link slot" data-text="Case Studies">Case Studies</a>
-        <a href="sandbox.html" class="nav-link slot" data-text="Sandbox">Sandbox</a>
-        <a href="#" class="nav-link slot" data-text="About">About</a>
-      </div>
-
+<body class="sandbox-page">
+  <header class="desktop-header">
+    <div class="desktop-header__inner">
+      <a href="index.html" class="desktop-header__name">[ Htet Aung Lin ]</a>
+      <div class="desktop-header__line"></div>
+      <span class="desktop-header__time"></span>
+      <div class="desktop-header__line"></div>
+      <nav class="desktop-header__nav">
+        <a href="sandbox.html" class="desktop-header__link active">[ Sandbox</a>
+        <a href="about.html" class="desktop-header__link">About ]</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <main class="wrap">
-    <section class="layout">
-      <!-- LEFT -->
-      <div class="left">
-        <h1>Google Code Next</h1>
-        <div class="meta">
-          <div><strong>Year</strong><span>2025</span></div>
-          <div><strong>Scope</strong><span>Brand Identity Design</span></div>
-          <div><strong>Industry</strong><span>Education</span></div>
-          <div><strong>Overview</strong><span>Google Code Next is a program designed to empower students with coding
-              skills and foster innovation in technology education. I was assigned to design brand identity for their
-              Winter and Spring Showcases.</span></div>
-        </div>
+  <header id="navbar" class="mobile-header">
+    <div class="mobile-header__bar">
+      <div class="mobile-header__row1">
+        <a href="index.html" class="mobile-header__name">[ Htet Aung Lin ]</a>
+        <span class="mobile-header__divider" aria-hidden="true"></span>
+        <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon-menu lucide lucide-hamburger" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 16H4a2 2 0 1 1 0-4h16a2 2 0 1 1 0 4h-4.25" />
+            <path d="M5 12a2 2 0 0 1-2-2 9 7 0 0 1 18 0 2 2 0 0 1-2 2" />
+            <path d="M5 16a2 2 0 0 0-2 2 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 2 2 0 0 0-2-2q0 0 0 0" />
+            <path d="m6.67 12 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2" />
+          </svg>
+          <svg class="icon icon-close" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
       </div>
+      <p class="mobile-header__time" id="nyc-time"></p>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="sandbox.html" class="nav-link slot nav-link-active" data-text="Sandbox">Sandbox</a>
+      <a href="about.html" class="nav-link slot" data-text="About">About</a>
+    </div>
+  </header>
 
-      <!-- RIGHT -->
-      <div class="right">
-        <div class="slider">
-          <div class="track">
-            <video class="slide" src="images/SpringShowCaseLogoVideo.mp4" controls>
-              Your browser does not support the video tag.
-            </video>
-            <img class="slide" src="images/GCN_Spring.jpg" alt="Slide 1" />
-            <img class="slide" src="images/GCN_Winter.jpg" alt="Slide 2" />
-            <img class="slide" src="images/GCN_Winter1.jpg" alt="Slide 3" />
-            <img class="slide" src="images/GCN_Spring.jpg" alt="Slide 4" />
-          </div>
-        </div>
-
-        <div class="dots"></div>
-      </div>
-    </section>
-
-    <hr class="divider">
-
-
+  <main class="sandbox-main">
+    <div class="under-construction">
+      <p class="under-construction__label">[ sandbox ]</p>
+      <h1 class="under-construction__title">Under Construction</h1>
+      <p class="under-construction__sub">Something's being built here. Check back soon.</p>
+    </div>
   </main>
 
   <footer>
@@ -105,7 +88,7 @@
           </svg>
         </a>
       </div>
-      <p class="copyright">© 2026 Htet Aung Lin. All rights reserved.</p>
+      <p class="copyright">© 2026 Htet Aung Lin. <br> Vibe-coded with Figma and Claude.</p>
     </div>
   </footer>
 

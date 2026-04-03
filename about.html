@@ -1,0 +1,351 @@
+<!-- about.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Htet Aung Lin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+Myanmar:wght@400&family=Noto+Serif+Myanmar:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="about.css" />
+</head>
+
+<body class="about-page">
+  <header class="desktop-header">
+    <div class="desktop-header__inner">
+      <a href="index.html" class="desktop-header__name">[ Htet Aung Lin ]</a>
+      <div class="desktop-header__line"></div>
+      <span class="desktop-header__time"></span>
+      <div class="desktop-header__line"></div>
+      <nav class="desktop-header__nav">
+        <a href="sandbox.html" class="desktop-header__link">[ Sandbox</a>
+        <a href="about.html" class="desktop-header__link active">About ]</a>
+      </nav>
+    </div>
+  </header>
+
+  <header id="navbar" class="mobile-header">
+    <div class="mobile-header__bar">
+      <div class="mobile-header__row1">
+        <a href="index.html" class="mobile-header__name">[ Htet Aung Lin ]</a>
+        <span class="mobile-header__divider" aria-hidden="true"></span>
+        <button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon icon-menu lucide lucide-hamburger" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 16H4a2 2 0 1 1 0-4h16a2 2 0 1 1 0 4h-4.25" />
+            <path d="M5 12a2 2 0 0 1-2-2 9 7 0 0 1 18 0 2 2 0 0 1-2 2" />
+            <path d="M5 16a2 2 0 0 0-2 2 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 2 2 0 0 0-2-2q0 0 0 0" />
+            <path d="m6.67 12 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2" />
+          </svg>
+          <svg class="icon icon-close" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <p class="mobile-header__time" id="nyc-time"></p>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="sandbox.html" class="nav-link slot" data-text="Sandbox">Sandbox</a>
+      <a href="about.html" class="nav-link slot nav-link-active" data-text="About">About</a>
+    </div>
+  </header>
+
+  <main class="about-main">
+    <!-- Desktop: polaroid + bio intro -->
+    <section class="design-section design-section--desktop">
+      <div class="polaroid-stack">
+        <div class="polaroid">
+          <div class="polaroid-frame">
+            <img src="images/Htet.JPG" alt="Htet in the snow" />
+          </div>
+        </div>
+      </div>
+      <div class="desktop-bio">
+        <h1 class="desktop-bio__heading">
+          Hi! <span lang="my" class="desktop-bio__myanmar">မင်္ဂလာပါ</span>
+        </h1>
+        <p class="desktop-bio__text">
+          My name is Htet <span class="desktop-bio__ipa">/tɛd/</span>.<br>
+          I'm an interdisciplinary designer studying Information Science and Human-Computer Interaction at Columbia.
+        </p>
+      </div>
+    </section>
+
+    <!-- Desktop: How I get into Design (interactive card stack) -->
+    <section class="how-design-section desktop-only" aria-labelledby="how-design-hdg">
+      <div class="how-design-inner">
+        <h2 class="how-design-heading" id="how-design-hdg">How I get into Design</h2>
+        <div class="design-stack design-stack--desktop" id="designCardStackDesktop" aria-label="How I got into design — click the front card to advance">
+          <div class="design-stack__viewport">
+            <article class="design-stack-card design-stack-card--figma" data-card-index="0">
+              <p class="design-stack-card__num">01</p>
+              <div class="design-stack-card__body">
+                <p>I discovered my love for design in an unexpected place: while preparing presentation slides for a civil engineering class.</p>
+                <p class="design-stack-card__spacer" aria-hidden="true">&nbsp;</p>
+                <p>Instead of rushing through them, I found myself spending extra time thinking about layout, visuals, and how information could be communicated clearly.</p>
+              </div>
+            </article>
+            <article class="design-stack-card design-stack-card--figma" data-card-index="1">
+              <p class="design-stack-card__num">02</p>
+              <p class="design-stack-card__body">What I love about design is the freedom it offers. Creating something myself, like a logo or an icon as a transparent PNG file, feels strangely satisfying. There were times when it was difficult to find company logos with transparent backgrounds, and being able to make them myself removed that frustration. As long as I have ideas and the right tools, I can turn those ideas into something real.</p>
+            </article>
+            <article class="design-stack-card design-stack-card--figma" data-card-index="2">
+              <p class="design-stack-card__num">03</p>
+              <p class="design-stack-card__body">That curiosity led me to start working as a graphic designer. At the same time, I have always admired what engineers build and how technology shapes everyday life. I began searching for a place where creativity and technology intersect. That is when I discovered product design.</p>
+            </article>
+            <article class="design-stack-card design-stack-card--figma" data-card-index="3">
+              <p class="design-stack-card__num">04</p>
+              <p class="design-stack-card__body">Now I want my designs to go beyond static screens. I want to bring them to life and create experiences people can actually interact with. That is why I am learning to code. I want the things I design to not only look good but also work in the real world.</p>
+            </article>
+          </div>
+        </div>
+        <p class="design-stack__click-hint" aria-hidden="true">click to advance</p>
+      </div>
+    </section>
+
+    <!-- Desktop: If I'm not designing -->
+    <section class="desktop-only nd-desktop-section" aria-labelledby="nd-desktop-heading">
+      <div class="about-desktop-inner">
+        <h2 class="figma-section-title" id="nd-desktop-heading">If I'm not designing,</h2>
+        <div class="nd-desktop-grid">
+          <img src="images/Concert1.JPEG" alt="Concert" class="nd-desktop-img" loading="lazy" />
+          <div class="nd-desktop-content">
+            <h3 class="nd-desktop-sub">Going to Concerts</h3>
+            <div class="nd-desktop-copy">
+              <p class="nd-desktop-year">2026 concerts:</p>
+              <p>Bruno Mars (Upcoming)</p>
+              <p>&nbsp;</p>
+              <p class="nd-desktop-year">2025 concerts:</p>
+              <p>ColdPlay, OneOkRock</p>
+              <p>&nbsp;</p>
+              <p class="nd-desktop-year">2024 concerts:</p>
+              <p>IVE, LANY, Joe Hisaishi, Imagine Dragons, Head in the Clouds Festival, NIKI, Global Citizen Festival, The Script, and Fly By Midnight</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Mobile (Figma): polaroid, intro, swipeable numbered card stack -->
+    <section class="design-section--mobile" aria-labelledby="design-heading-mobile">
+      <div class="design-mobile-hero">
+        <div class="polaroid-stack polaroid-stack--mobile">
+          <div class="polaroid polaroid--mobile">
+            <div class="polaroid-frame polaroid-frame--mobile">
+              <img src="images/Htet.JPG" alt="Htet in the snow" />
+            </div>
+          </div>
+        </div>
+        <div class="design-mobile-intro">
+          <p class="design-mobile-hi">
+            <span class="design-mobile-hi-en">Hi!</span>
+            <span class="design-mobile-myanmar" lang="my">မင်္ဂလာပါ</span>
+          </p>
+          <p class="design-mobile-name">My name is Htet <span class="design-mobile-ipa">/tɛd/</span>.</p>
+          <p class="design-mobile-bio">
+            <span>I’m an interdisciplinary designer studying Information Science and Human-Computer Interaction at </span>
+            <span class="design-mobile-columbia-lockup">
+              <span class="design-mobile-columbia-name">Columbia</span>
+              <img class="design-mobile-crest" src="images/Columbia_Lions_logo.png" width="32" height="32" alt="" />
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <h2 class="design-heading design-heading--mobile" id="design-heading-mobile">How I get into Design</h2>
+
+      <div class="design-stack" id="designCardStack" aria-label="How I got into design, stacked cards — swipe up on the front card">
+        <div class="design-stack__viewport">
+          <article class="design-stack-card design-stack-card--figma" data-card-index="0">
+            <p class="design-stack-card__num">01</p>
+            <div class="design-stack-card__body">
+              <p>I discovered my love for design in an unexpected place: while preparing presentation slides for a civil engineering class.</p>
+              <p class="design-stack-card__spacer" aria-hidden="true">&nbsp;</p>
+              <p>Instead of rushing through them, I found myself spending extra time thinking about layout, visuals, and how information could be communicated clearly.</p>
+            </div>
+          </article>
+          <article class="design-stack-card design-stack-card--figma" data-card-index="1">
+            <p class="design-stack-card__num">02</p>
+            <p class="design-stack-card__body">What I love about design is the freedom it offers. Creating something myself, like a logo or an icon as a transparent PNG file, feels strangely satisfying. There were times when it was difficult to find company logos with transparent backgrounds, and being able to make them myself removed that frustration. As long as I have ideas and the right tools, I can turn those ideas into something real.</p>
+          </article>
+          <article class="design-stack-card design-stack-card--figma" data-card-index="2">
+            <p class="design-stack-card__num">03</p>
+            <p class="design-stack-card__body">That curiosity led me to start working as a graphic designer. At the same time, I have always admired what engineers build and how technology shapes everyday life. I began searching for a place where creativity and technology intersect. That is when I discovered product design.</p>
+          </article>
+          <article class="design-stack-card design-stack-card--figma" data-card-index="3">
+            <p class="design-stack-card__num">04</p>
+            <p class="design-stack-card__body">Now I want my designs to go beyond static screens. I want to bring them to life and create experiences people can actually interact with. That is why I am learning to code. I want the things I design to not only look good but also work in the real world.</p>
+          </article>
+        </div>
+      </div>
+      <p class="design-stack__swipe-hint" aria-hidden="true">swipe up</p>
+    </section>
+
+    <!-- Mobile reference: If I'm not designing, Journey, Community, Awards -->
+    <section class="about-mobile-only about-section about-section--not-designing" aria-labelledby="not-designing-heading">
+      <h2 class="about-figma-title about-figma-title--light" id="not-designing-heading">If I'm not designing,</h2>
+      <div class="about-not-designing__media">
+        <img src="images/Concert1.JPEG" alt="Concert 1" class="about-not-designing__img" loading="lazy" />
+      </div>
+      <h3 class="about-not-designing__sub">Going to Concerts</h3>
+      <div class="about-not-designing__content">
+        <span class="about-not-designing__icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ticket-icon lucide-ticket"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+        </span>
+        <div class="about-not-designing__copy">
+          <p>2026 concerts:</p>
+          <p>Bruno Mars (Upcoming)</p>
+          <p>&nbsp;</p>
+          <p>2025 concerts —</p>
+          <p>ColdPlay, OneOkRock</p>
+          <p>&nbsp;</p>
+          <p>2024 concerts —</p>
+          <p>IVE, LANY, Joe Hisaishi, Imagine Dragons, Head in the Clouds Festival, NIKI, Global Citizen Festival, The Script, and Fly By Midnight</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section--journey journey-section" aria-labelledby="journey-heading-shared">
+      <div class="journey-phone" id="journeyPhone">
+        <div class="journey-phone__header">
+          <h2 class="journey-phone__title" id="journey-heading-shared">My Journey</h2>
+        </div>
+        <div class="journey-swipe-area" id="journeySwipeArea">
+          <div class="journey-entries-track" id="journeyEntriesTrack"></div>
+        </div>
+        <div class="journey-hscroll-container" id="journeyHScroll">
+          <div class="journey-hscroll-track" id="journeyHScrollTrack"></div>
+          <div class="journey-hscroll-pointer" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-mobile-only community-section community-section--mobile-figma" aria-labelledby="community-heading-mobile">
+      <h2 class="about-figma-title about-figma-title--light" id="community-heading-mobile">Community</h2>
+      <ul class="community-list--mobile-figma">
+        <li class="community-row-mobile">
+          <div class="community-row-mobile__logo" aria-hidden="true"></div>
+          <div class="community-row-mobile__text">
+            <span class="community-row-mobile__org">Design@Columbia</span>
+            <span class="community-row-mobile__role">Head of Events</span>
+            <span class="community-row-mobile__date">Sep 2025 - Present</span>
+          </div>
+        </li>
+        <li class="community-row-mobile">
+          <div class="community-row-mobile__logo" aria-hidden="true"></div>
+          <div class="community-row-mobile__text">
+            <span class="community-row-mobile__org">BMCC Digital Arts Club</span>
+            <span class="community-row-mobile__role">President</span>
+            <span class="community-row-mobile__date">Spring 2023, Fall 2024</span>
+          </div>
+        </li>
+        <li class="community-row-mobile">
+          <div class="community-row-mobile__logo" aria-hidden="true"></div>
+          <div class="community-row-mobile__text">
+            <span class="community-row-mobile__org">BMCC IMPACT Mentoring</span>
+            <span class="community-row-mobile__role">Peer Mentor</span>
+            <span class="community-row-mobile__date">Aug 2023 - Present</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="about-mobile-only about-section about-section--awards" aria-labelledby="awards-heading">
+      <h2 class="about-figma-title about-figma-title--light" id="awards-heading">Awards/ Press</h2>
+      <ul class="awards-press-list">
+        <li class="awards-row-mobile">
+          <div class="awards-row-mobile__logo" aria-hidden="true"></div>
+          <p class="awards-row-mobile__text">BMCC-Columbia NYC Full-ride Scholarship (2025-2026 Cohort)</p>
+        </li>
+        <li class="awards-row-mobile">
+          <div class="awards-row-mobile__logo" aria-hidden="true"></div>
+          <p class="awards-row-mobile__text">Semifinalist of Jack Kent Cooke Undergraduate Transfer Scholarship</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Desktop: Community (Figma-style) -->
+    <section class="desktop-only community-figma-section" aria-labelledby="community-figma-hdg">
+      <h2 class="figma-section-title" id="community-figma-hdg">Community</h2>
+      <ul class="community-figma-list">
+        <li class="community-figma-row">
+          <div class="community-figma-logo" aria-hidden="true">
+            <img src="images/columbia-shield.svg" alt="" />
+          </div>
+          <div class="community-figma-text">
+            <span class="community-figma-org">Design @ Columbia</span>
+            <span class="community-figma-role">Head of Events</span>
+          </div>
+          <span class="community-figma-date">Sep 2025 — Present</span>
+        </li>
+        <li class="community-figma-row">
+          <div class="community-figma-logo" aria-hidden="true"></div>
+          <div class="community-figma-text">
+            <span class="community-figma-org">BMCC Digital Arts Club</span>
+            <span class="community-figma-role">President</span>
+          </div>
+          <span class="community-figma-date">Spring 2023 — Fall 2024</span>
+        </li>
+        <li class="community-figma-row">
+          <div class="community-figma-logo" aria-hidden="true"></div>
+          <div class="community-figma-text">
+            <span class="community-figma-org">IMPACT Mentoring Program</span>
+            <span class="community-figma-role">Peer Mentor</span>
+          </div>
+          <span class="community-figma-date">Aug 2023 — May 2025</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Desktop: Awards / Press (Figma-style) -->
+    <section class="desktop-only awards-figma-section" aria-labelledby="awards-figma-hdg">
+      <h2 class="figma-section-title" id="awards-figma-hdg">Awards / Press</h2>
+      <div class="awards-figma-grid">
+        <div class="awards-figma-item">
+          <div class="awards-figma-img-placeholder" aria-hidden="true"></div>
+          <p class="awards-figma-caption">BMCC-Columbia NYC Full-ride Scholarship (2025-2026 Cohort)</p>
+        </div>
+        <div class="awards-figma-item">
+          <div class="awards-figma-img-placeholder" aria-hidden="true"></div>
+          <p class="awards-figma-caption">Semifinalist of Jack Kent Cooke Undergraduate Transfer Scholarship</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="social-icons">
+        <a href="https://www.linkedin.com/in/htetaunglin2024/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Resume">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+          </svg>
+        </a>
+        <a href="mailto:hl4009@columbia.edu" class="social-link" aria-label="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+          </svg>
+        </a>
+      </div>
+      <p class="copyright">© 2026 Htet Aung Lin. <br> Vibe-coded with Figma and Claude.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="about.js"></script>
+</body>
+
+</html>

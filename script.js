@@ -64,6 +64,52 @@ document.querySelectorAll('.nav-link').forEach(link => {
 // Project card hover effects enhancement (only if cards exist)
 const projectCards = document.querySelectorAll('.project-card');
 
+// Custom cursor: "View case study" with eye icon (desktop only)
+if (projectCards.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const cursor = document.createElement('div');
+  cursor.id = 'case-study-cursor';
+  cursor.innerHTML = `
+    <svg class="eye" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </svg>
+    <span class="label">View case study</span>
+  `;
+  document.body.appendChild(cursor);
+
+  let raf = 0;
+  let mx = 0;
+  let my = 0;
+
+  function moveCursor() {
+    raf = 0;
+    cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+  }
+
+  function setPos(x, y) {
+    mx = x;
+    my = y;
+    if (!raf) raf = requestAnimationFrame(moveCursor);
+  }
+
+  const cursorLabel = cursor.querySelector('.label');
+  const cursorEye = cursor.querySelector('.eye');
+
+  projectCards.forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      const isComingSoon = card.classList.contains('coming-soon-card');
+      cursorLabel.textContent = isComingSoon ? 'Coming Soon' : 'View Case Study';
+      cursorEye.style.display = isComingSoon ? 'none' : '';
+      cursor.classList.add('visible');
+    });
+    card.addEventListener('mouseleave', () => cursor.classList.remove('visible'));
+    card.addEventListener('mousemove', (e) => setPos(e.clientX, e.clientY));
+  });
+
+  // Hide cursor when leaving the window (prevents a stuck cursor)
+  window.addEventListener('blur', () => cursor.classList.remove('visible'));
+}
+
 projectCards.forEach(card => {
   card.addEventListener('mouseenter', () => {
     card.style.transform = 'translateY(-5px)';
@@ -147,35 +193,42 @@ document.querySelectorAll('.nav-link.slot').forEach((link) => {
   link.appendChild(wrap);
 });
 
-// NYC time (safe on pages without #nyc-time)
+// NYC time — updates mobile header (#nyc-time) and desktop header (.desktop-header__time)
 function updateNYCTime() {
-  const nycEl = document.getElementById('nyc-time');
-  if (!nycEl) return;
-
   const now = new Date();
 
-  const options = {
+  const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York',
     hour: 'numeric',
     minute: '2-digit',
     hour12: true
-  };
+  });
 
-  const dateOptions = {
-    timeZone: 'America/New_York',
-    month: 'short',
-    day: 'numeric'
-  };
+  const parts = formatter.formatToParts(now);
+  let timeHtml = '';
+  let timeText = '';
+  for (const part of parts) {
+    if (part.type === 'literal' && part.value === ':') {
+      timeHtml += '<span class="time-colon" aria-hidden="true">:</span>';
+      timeText += ':';
+    } else {
+      timeHtml += part.value;
+      timeText += part.value;
+    }
+  }
 
-  const time = now.toLocaleString('en-US', options);
-  const date = now.toLocaleString('en-US', dateOptions);
+  // Mobile header (blinking colon)
+  const nycEl = document.getElementById('nyc-time');
+  if (nycEl) nycEl.innerHTML = `[ NYC · ${timeHtml} ]`;
 
-  nycEl.textContent = `${time}, ${date}`;
+  // Desktop header (with blinking colon)
+  document.querySelectorAll('.desktop-header__time').forEach(function(el) {
+    el.innerHTML = `[ NYC · ${timeHtml} ]`;
+  });
 }
 
-// Update immediately + every minute (won't do anything if element missing)
 updateNYCTime();
-setInterval(updateNYCTime, 60000);
+setInterval(updateNYCTime, 1000);
 
 // Sandbox sliders (supports multiple sliders on the same page)
 document.querySelectorAll('.right').forEach((right) => {
