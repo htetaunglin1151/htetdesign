@@ -224,7 +224,7 @@
     margin-top: 0;
   }
 
-  .design-stack__swipe-hint {
+  .design-stack__tap-hint {
     display: block;
     text-align: center;
     font-family: 'Inter', sans-serif;
@@ -241,7 +241,8 @@
     margin: 0 auto;
     min-height: 0;
     padding-bottom: 0.5rem;
-    touch-action: pan-y;
+    touch-action: manipulation;
+    cursor: pointer;
   }
 
   .design-stack-card--figma {

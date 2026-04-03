@@ -12,7 +12,6 @@
   const stepPx = 52;
 
   let order = cards.map((_, i) => i);
-  let touchStartY = null;
 
   function updateViewportMinHeight() {
     let maxBottom = 0;
@@ -43,26 +42,10 @@
     applyStack();
   }
 
-  viewport.addEventListener(
-    'touchstart',
-    (e) => {
-      if (!window.matchMedia('(max-width: 768px)').matches) return;
-      touchStartY = e.touches[0].clientY;
-    },
-    { passive: true }
-  );
-
-  viewport.addEventListener(
-    'touchend',
-    (e) => {
-      if (!window.matchMedia('(max-width: 768px)').matches || touchStartY == null) return;
-      const endY = e.changedTouches[0].clientY;
-      const delta = touchStartY - endY;
-      touchStartY = null;
-      if (delta > 48) rotateStack();
-    },
-    { passive: true }
-  );
+  viewport.addEventListener('click', () => {
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    rotateStack();
+  });
 
   window.addEventListener('resize', () => {
     if (window.matchMedia('(max-width: 768px)').matches) applyStack();
