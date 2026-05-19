@@ -286,7 +286,8 @@ a:hover {
     padding: 56px 48px;
     display: flex;
     flex-direction: column;
-    background: #1f1f1f;
+    background: rgba(255,255,255,0.03);
+backdrop-filter: blur(10px);
     scrollbar-width: none;
   }
   .sidebar::-webkit-scrollbar { display: none; }
@@ -466,7 +467,8 @@ a:hover {
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    column-gap: 24px;
+    row-gap: 40px;
     width: 100%;
     margin-bottom: 0;
   }
@@ -484,7 +486,8 @@ a:hover {
   .project-image {
     border-radius: 12px;
     margin-bottom: 0;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 10;
+    max-height: 400px;
   }
 
   .project-info {
@@ -741,13 +744,7 @@ main {
   background: transparent;
   border-radius: 0.9rem;
 
-  padding: 1rem;
-  transition: transform 0.25s ease, background 0.25s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-6px);
-  background: rgba(255, 255, 255, 0.04);
+  padding: 0;
 }
 
 .project-card:nth-child(1) {
@@ -779,7 +776,7 @@ main {
   overflow: hidden;
   border-radius: 12px;
   margin-bottom: 1rem;
-  aspect-ratio: 4/3;
+  aspect-ratio: 16 / 10;
   background-color: rgba(255, 255, 255, 0.06);
 }
 
@@ -798,9 +795,6 @@ main {
   transition: background-color 0.25s ease;
 }
 
-.project-card:hover .project-image::after {
-  background-color: rgba(0, 0, 0, 0.12);
-}
 
 .coming-soon-card .project-image::before {
   content: 'Coming Soon';
@@ -827,7 +821,7 @@ main {
 }
 
 .project-info {
-  padding: 0 0.25rem;
+  padding: 0;
 }
 
 .project-name {
@@ -894,13 +888,6 @@ main {
   white-space: nowrap;
 }
 
-@media (hover: hover) and (pointer: fine) {
-
-  .project-card:hover,
-  .project-card:hover * {
-    cursor: none;
-  }
-}
 
 /* Sandbox Page */
 /* Left Column Styles */
@@ -1046,7 +1033,8 @@ main {
 
 /* Footer */
 .page-footer {
-  background: #1f1f1f;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding: 2rem 0;
   width: 100%;
@@ -1142,7 +1130,7 @@ main {
   }
   .content-panel {
     margin-left: 320px;
-    padding: 44px 32px;
+    padding: 44px 48px 44px 32px;
   }
   .sidebar__title   { font-size: 1.625rem; }
   .sidebar__tagline { font-size: 1.375rem; }
@@ -1267,7 +1255,7 @@ main {
 
   .projects-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
+    gap: 80px;
     width: 100%;
     box-sizing: border-box;
   }
@@ -1278,8 +1266,8 @@ main {
   }
 
   .project-card {
-    border-radius: 16px;
-    padding: 1rem;
+    padding: 0;
+    border-radius: 0;
     min-width: 0;
     width: 100%;
     box-sizing: border-box;
@@ -1289,7 +1277,8 @@ main {
   .project-image {
     border-radius: 12px;
     margin-bottom: 1rem;
-    aspect-ratio: 326 / 183;
+    aspect-ratio: 16 / 9;
+    max-height: 260px;
   }
 
   footer {
