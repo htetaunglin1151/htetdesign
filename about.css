@@ -152,7 +152,7 @@
   }
 
   .design-mobile-hi {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 32px;
     line-height: 35px;
     letter-spacing: -0.03em;
@@ -210,7 +210,7 @@
 
   /* ── Design card stack ── */
   .design-heading--mobile {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 32px;
     font-weight: 400;
     line-height: 44px;
@@ -283,7 +283,7 @@
 
   .design-stack-card__num {
     flex-shrink: 0;
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 32px;
     line-height: 44px;
     letter-spacing: -0.96px;
@@ -346,7 +346,7 @@
   }
 
   .about-figma-title {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 32px;
     font-weight: 400;
     line-height: 44px;
@@ -371,7 +371,7 @@
     display: block;
     width: 100%;
     height: 203px;
-    border-radius: 5px;
+    border-radius: 12px;
     object-fit: cover;
   }
 
@@ -444,7 +444,7 @@
   }
 
   .journey-phone__title {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 32px;
     font-weight: 400;
     letter-spacing: -0.96px;
@@ -510,7 +510,7 @@
   }
 
   .journey-entry__company {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--about-accent);
@@ -668,7 +668,7 @@
   }
 
   .community-row-mobile__org {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 20px;
     line-height: 26px;
     font-weight: 400;
@@ -791,7 +791,7 @@
 }
 
 .design-stack--desktop .design-stack-card__num {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 48px;
   line-height: 1.1;
   letter-spacing: -0.03em;
@@ -1070,7 +1070,7 @@
 }
 
 .about-desktop-title {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: clamp(1.9rem, 4vw, 2.6rem);
   font-weight: 400;
   color: var(--text);
@@ -1098,7 +1098,7 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 0.75rem;
+  border-radius: 12px;
   display: block;
 }
 
@@ -1157,7 +1157,7 @@
 }
 
 .journey-desktop-num {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 1.5rem;
   color: rgba(255, 255, 255, 0.25);
   line-height: 1;
@@ -1170,7 +1170,7 @@
 }
 
 .journey-desktop-company {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 1.5rem;
   font-weight: 400;
   color: #34DA30;
@@ -1252,7 +1252,7 @@
 }
 
 .desktop-bio__heading {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 40px;
   font-weight: 400;
   line-height: 1.1;
@@ -1304,7 +1304,7 @@
 }
 
 .how-design-heading {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 64px;
   font-weight: 400;
   line-height: 1.05;
@@ -1360,7 +1360,7 @@
 }
 
 .hd-card__num {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 43px;
   font-weight: 400;
   line-height: 1.1;
@@ -1426,7 +1426,7 @@
    Desktop: Shared Figma-style section title (64px, centered)
    ============================================================ */
 .figma-section-title {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 64px;
   font-weight: 400;
   line-height: 1.1;
@@ -1497,7 +1497,7 @@
 }
 
 .community-figma-org {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 24px;
   font-weight: 400;
   letter-spacing: -0.72px;
@@ -1546,21 +1546,19 @@
 .awards-figma-img-placeholder {
   width: 100%;
   aspect-ratio: 519 / 307;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  /* add this */
 }
 
 .awards-figma-img-placeholder img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* changed from contain to cover */
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .awards-figma-caption {
-  font-family: 'Gelasio', serif;
+  font-family: 'Familjen Grotesk', serif;
   font-size: 24px;
   font-weight: 400;
   letter-spacing: -0.72px;
@@ -1601,7 +1599,7 @@
   }
 
   .journey-phone__title {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 64px;
     font-weight: 400;
     letter-spacing: -1.92px;
@@ -1667,7 +1665,7 @@
   }
 
   .journey-entry__company {
-    font-family: 'Gelasio', serif;
+    font-family: 'Familjen Grotesk', serif;
     font-size: 28px;
     font-weight: 400;
     color: #34DA30;
