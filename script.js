@@ -265,10 +265,28 @@ document.querySelectorAll('.right').forEach((right) => {
 
 
 // Smooth page transitions between internal pages (desktop only).
-// Fades the content panel out, then navigates; the destination page
-// fades back in via the pageEnter animation in styles.css.
+// Primary path: cross-document view transitions in styles.css — the
+// browser cross-fades only the content panel while the sidebar stays
+// static. Fallback path (no support): fade the content panel out via
+// JS, navigate, then fade back in with the pageEnter animation.
 (function () {
   const desktopView = window.matchMedia('(min-width: 769px)');
+
+  // Feature-detect cross-document view transitions: browsers that
+  // support them parse the @view-transition rule, others drop it.
+  let nativeVT = false;
+  try {
+    const probe = document.createElement('style');
+    probe.textContent = '@view-transition { navigation: auto; }';
+    document.head.appendChild(probe);
+    nativeVT = probe.sheet.cssRules.length > 0;
+    probe.remove();
+  } catch (err) {
+    nativeVT = false;
+  }
+  if (nativeVT) return; // native transitions handle everything
+
+  document.documentElement.classList.add('no-vt');
 
   // If the page is restored from the back/forward cache, clear the
   // exit state so the content panel isn't stuck invisible.
