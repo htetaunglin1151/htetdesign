@@ -264,4 +264,76 @@ document.querySelectorAll('.right').forEach((right) => {
 
 
 
+// Smooth page transitions between internal pages (desktop only).
+// Fades the content panel out, then navigates; the destination page
+// fades back in via the pageEnter animation in styles.css.
+(function () {
+  const desktopView = window.matchMedia('(min-width: 769px)');
+
+  // If the page is restored from the back/forward cache, clear the
+  // exit state so the content panel isn't stuck invisible.
+  window.addEventListener('pageshow', () => {
+    document.body.classList.remove('page-exit');
+  });
+
+  document.querySelectorAll('.sidebar a[href$=".html"]').forEach((link) => {
+    if (link.target === '_blank') return;
+    link.addEventListener('click', (e) => {
+      if (!desktopView.matches) return;
+      e.preventDefault();
+      document.body.classList.add('page-exit');
+      const raw = getComputedStyle(document.documentElement).getPropertyValue('--duration-page');
+      const duration = parseFloat(raw) || 250;
+      setTimeout(() => {
+        window.location.href = link.getAttribute('href');
+      }, duration);
+    });
+  });
+})();
+
+// Email icon: hover shows a "Copy email" tooltip; clicking copies the
+// address and flips the tooltip to a green "Copied" for a moment.
+(function () {
+  function copyFallback(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (err) { /* ignore */ }
+    ta.remove();
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(() => copyFallback(text));
+    }
+    copyFallback(text);
+    return Promise.resolve();
+  }
+
+  document.querySelectorAll('.social-link[aria-label="Email"]').forEach((link) => {
+    const email = (link.getAttribute('href') || '').replace('mailto:', '');
+    if (!email) return;
+
+    link.classList.add('social-link--copy');
+    link.dataset.tooltip = 'Copy email';
+
+    let resetTimer;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      copyText(email).then(() => {
+        link.dataset.tooltip = 'Copied';
+        link.classList.add('copied');
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+          link.dataset.tooltip = 'Copy email';
+          link.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  });
+})();
+
 console.log('Portfolio website loaded successfully!');

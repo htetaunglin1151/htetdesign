@@ -46,6 +46,7 @@
     <div class="nav-links" id="navLinks">
       <a href="sandbox.html" class="nav-link slot" data-text="Sandbox">Sandbox</a>
       <a href="about.html" class="nav-link slot nav-link-active" data-text="About">About</a>
+      <a href="https://burmesenyc.com/" target="_blank" rel="noopener noreferrer" class="nav-link slot" data-text="Blog">Blog</a>
     </div>
   </header>
 
@@ -54,40 +55,24 @@
     <!-- Left fixed sidebar -->
     <aside class="sidebar">
       <div class="sidebar__top">
-        <a href="index.html" class="sidebar__name">[ Htet Aung Lin ]</a>
-        <span class="sidebar__time desktop-header__time"></span>
+        <div class="sidebar__brand">
+          <img src="images/Htet.JPG" alt="Htet Aung Lin logo" class="sidebar__logo" />
+          <a href="index.html" class="sidebar__name">[ Htet Aung Lin ]</a>
+        </div>
       </div>
 
-      <div class="sidebar__body">
-        <div class="sidebar__hero">
-          <h1 class="sidebar__title">Hi! I'm Htet Aung Lin</h1>
-          <p class="sidebar__subtitle">Information Science (HCI) @ Columbia</p>
-        </div>
+      <!-- Nav: pinned in the top zone, always visible (no scroll) -->
+      <nav class="sidebar__nav">
+        <a href="index.html" class="sidebar__nav-link">Featured Case Studies</a>
+        <a href="sandbox.html" class="sidebar__nav-link">Sandbox</a>
+        <a href="about.html" class="sidebar__nav-link sidebar__nav-link--active">About</a>
+        <a href="https://burmesenyc.com/" target="_blank" rel="noopener noreferrer" class="sidebar__nav-link">Blog</a>
+      </nav>
 
-        <div class="sidebar__rule"></div>
-
-        <div class="sidebar__bio-block">
-          <p class="sidebar__tagline">Designing products that make complex systems feel simple and human.</p>
-          <p class="sidebar__bio">
-            Design Assistant @ CUNY K16 Initiatives<br>
-            Previously @ Quilly, Amplio, Bearworks,<br>
-            Google Code Next
-          </p>
-        </div>
-
-        <div class="sidebar__rule"></div>
-
-        <nav class="sidebar__nav">
-          <a href="index.html" class="sidebar__nav-link">Featured Case Studies</a>
-          <div class="sidebar__rule"></div>
-          <a href="sandbox.html" class="sidebar__nav-link">Sandbox</a>
-          <div class="sidebar__rule"></div>
-          <a href="about.html" class="sidebar__nav-link sidebar__nav-link--active">About</a>
-          <div class="sidebar__rule"></div>
-        </nav>
-      </div>
+      <div class="sidebar__body"></div>
 
       <footer class="sidebar__footer">
+        <span class="sidebar__time desktop-header__time"></span>
         <div class="social-icons">
           <a href="https://www.linkedin.com/in/htetaunglin2024/" target="_blank" rel="noopener noreferrer"
             class="social-link" aria-label="LinkedIn">

@@ -39,6 +39,7 @@
     <div class="nav-links" id="navLinks">
       <a href="sandbox.html" class="nav-link slot" data-text="Sandbox">Sandbox</a>
       <a href="about.html" class="nav-link slot" data-text="About">About</a>
+      <a href="https://burmesenyc.com/" target="_blank" rel="noopener noreferrer" class="nav-link slot" data-text="Blog">Blog</a>
     </div>
   </header>
 
@@ -47,43 +48,24 @@
     <!-- Left fixed sidebar (desktop only) -->
     <aside class="sidebar">
       <div class="sidebar__top">
-        <a href="index.html" class="sidebar__name">[ Htet Aung Lin ]</a>
-        <span class="sidebar__time desktop-header__time"></span>
+        <div class="sidebar__brand">
+          <img src="images/Htet.JPG" alt="Htet Aung Lin logo" class="sidebar__logo" />
+          <a href="index.html" class="sidebar__name">[ Htet Aung Lin ]</a>
+        </div>
       </div>
 
-      <div class="sidebar__body">
-        <!-- Hero identity block -->
-        <div class="sidebar__hero">
-          <h1 class="sidebar__title">Hi! I'm Htet Aung Lin</h1>
-          <p class="sidebar__subtitle">Information Science (HCI) @ Columbia</p>
-        </div>
+      <!-- Nav: pinned in the top zone, always visible (no scroll) -->
+      <nav class="sidebar__nav">
+        <a href="index.html" class="sidebar__nav-link sidebar__nav-link--active">Featured Case Studies</a>
+        <a href="sandbox.html" class="sidebar__nav-link">Sandbox</a>
+        <a href="about.html" class="sidebar__nav-link">About</a>
+        <a href="https://burmesenyc.com/" class="sidebar__nav-link" target="_blank" rel="noopener noreferrer">Blog</a>
+      </nav>
 
-        <div class="sidebar__rule"></div>
-
-        <!-- Tagline + bio -->
-        <div class="sidebar__bio-block">
-          <p class="sidebar__tagline">Designing products that make complex systems feel simple and human.</p>
-          <p class="sidebar__bio">
-            Design Assistant @ CUNY K16 Initiatives<br>
-            Previously @ Quilly, Amplio, Bearworks,<br>
-            Google Code Next
-          </p>
-        </div>
-
-        <div class="sidebar__rule"></div>
-
-        <!-- Nav -->
-        <nav class="sidebar__nav">
-          <a href="index.html" class="sidebar__nav-link sidebar__nav-link--active">Featured Case Studies</a>
-          <div class="sidebar__rule"></div>
-          <a href="sandbox.html" class="sidebar__nav-link">Sandbox</a>
-          <div class="sidebar__rule"></div>
-          <a href="about.html" class="sidebar__nav-link">About</a>
-          <div class="sidebar__rule"></div>
-        </nav>
-      </div>
+      <div class="sidebar__body"></div>
 
       <footer class="sidebar__footer">
+        <span class="sidebar__time desktop-header__time"></span>
         <div class="social-icons">
           <a href="https://www.linkedin.com/in/htetaunglin2024/" target="_blank" rel="noopener noreferrer"
             class="social-link" aria-label="LinkedIn">
@@ -109,6 +91,22 @@
     <!-- Right scrollable content panel -->
     <main class="content-panel">
 
+      <!-- Desktop-only two-column intro -->
+      <section class="content-intro">
+        <div class="content-intro__left">
+          <h1 class="content-intro__title">Hi! I'm Htet Aung Lin</h1>
+          <p class="content-intro__subtitle">Information Science (HCI) @ Columbia</p>
+        </div>
+        <div class="content-intro__right">
+          <p class="content-intro__tagline">Designing products that make complex systems feel simple and human.</p>
+          <p class="content-intro__bio">
+            Design Assistant @ CUNY K16 Initiatives<br>
+            Previously @ Quilly, Amplio, Bearworks,<br>
+            Google Code Next
+          </p>
+        </div>
+      </section>
+
       <section class="hero">
         <h1 class="hero-title">
           <span class="hero-title-line">Hi! I'm Htet <span class="hero-ipa">/tɛd/</span> Aung Lin.</span>
@@ -129,7 +127,7 @@
           </div>
           <div class="project-info">
             <p class="project-name">Amplio</p>
-            <h3 class="project-description">Streamlining Audio Content Deployment Process</h3>
+            <h3 class="project-description">Making Complex Audio Management Feel Intuitive</h3>
             <p class="project-meta">Social Impact · Summer 2024</p>
           </div>
         </a>
@@ -140,7 +138,7 @@
           </div>
           <div class="project-info">
             <p class="project-name">Borough of Manhattan Community College</p>
-            <h3 class="project-description">A Platform for discovering campus events and accessing university resources</h3>
+            <h3 class="project-description">Discovering campus events in one place</h3>
             <p class="project-meta">Coming Soon</p>
           </div>
         </a>
@@ -152,19 +150,8 @@
           </div>
           <div class="project-info">
             <p class="project-name">Membridge</p>
-            <h3 class="project-description">A platform that helps and manages for memory merging for superpower</h3>
+            <h3 class="project-description">Managing memory merging for superpower</h3>
             <p class="project-meta">FigBuild 2025 · Designathon Project</p>
-          </div>
-        </a>
-
-        <a href="#" class="project-card coming-soon-card">
-          <div class="project-image">
-            <img src="images/BearworksCover.png" alt="Bearworks Case Study">
-          </div>
-          <div class="project-info">
-            <p class="project-name">Bearworks</p>
-            <h3 class="project-description">Equip sales reps and supervisors to improve sales pitch through AI bots</h3>
-            <p class="project-meta">Coming Soon</p>
           </div>
         </a>
 
