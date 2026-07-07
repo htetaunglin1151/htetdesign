@@ -529,46 +529,15 @@ backdrop-filter: blur(10px);
   .sandbox-main { padding-top: 0; min-height: auto; }
   main          { padding-top: 0; }
 
-  /* Smooth page switch, primary path: cross-document view transitions
-     (Chrome/Edge/Safari). The sidebar gets its own snapshot group with
-     animation disabled, so it stays pixel-static across navigations;
-     only the content panel cross-fades. */
-  @view-transition {
-    navigation: auto;
-  }
-  .sidebar {
-    view-transition-name: sidebar;
-  }
+  /* Smooth page switch (script.js): internal navigation fetches the
+     next page and swaps only the content panel in place — the sidebar
+     element is never replaced, so it stays perfectly still. The
+     outgoing panel fades out, the incoming one fades in. */
   .content-panel {
-    view-transition-name: content;
-  }
-  ::view-transition-group(sidebar) {
-    animation: none;
-  }
-  ::view-transition-old(content),
-  ::view-transition-new(content) {
-    animation-duration: var(--duration-page);
-  }
-
-  /* Fallback path for browsers without cross-document view transitions
-     (script.js adds .no-vt): the content panel fades in on load and
-     fades out before internal navigation. */
-  .no-vt .content-panel {
-    animation: pageEnter var(--duration-page) ease both;
-  }
-  .no-vt body.page-exit .content-panel {
-    opacity: 0;
     transition: opacity var(--duration-page) ease;
   }
-  @keyframes pageEnter {
-    from {
-      opacity: 0;
-      transform: translateY(var(--space-2));
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+  .content-panel.is-swapping {
+    opacity: 0;
   }
 
   /* ── Desktop two-column intro (home page) ── */

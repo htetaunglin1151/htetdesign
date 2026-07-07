@@ -61,91 +61,131 @@ document.querySelectorAll('.nav-link').forEach(link => {
   });
 });
 
-// Project card hover effects enhancement (only if cards exist)
-const projectCards = document.querySelectorAll('.project-card');
+// Content-panel interactions. Everything here binds to elements inside
+// .content-panel, so it runs on initial load AND again after every
+// SPA-style page swap (see the navigation block near the end).
+function initContentInteractions() {
+  const projectCards = document.querySelectorAll('.project-card');
 
-// Custom cursor: "View case study" with eye icon (desktop only)
-if (projectCards.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-  const cursor = document.createElement('div');
-  cursor.id = 'case-study-cursor';
-  cursor.innerHTML = `
-    <svg class="eye" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
-    </svg>
-    <span class="label">View case study</span>
-  `;
-  document.body.appendChild(cursor);
+  // Custom cursor: "View case study" with eye icon (desktop only)
+  if (projectCards.length && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    let cursor = document.getElementById('case-study-cursor');
+    if (!cursor) {
+      cursor = document.createElement('div');
+      cursor.id = 'case-study-cursor';
+      cursor.innerHTML = `
+        <svg class="eye" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        <span class="label">View case study</span>
+      `;
+      document.body.appendChild(cursor);
 
-  let raf = 0;
-  let mx = 0;
-  let my = 0;
+      // Hide cursor when leaving the window (prevents a stuck cursor)
+      window.addEventListener('blur', () => cursor.classList.remove('visible'));
+    }
 
-  function moveCursor() {
-    raf = 0;
-    cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+    let raf = 0;
+    let mx = 0;
+    let my = 0;
+
+    const moveCursor = () => {
+      raf = 0;
+      cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+    };
+
+    const setPos = (x, y) => {
+      mx = x;
+      my = y;
+      if (!raf) raf = requestAnimationFrame(moveCursor);
+    };
+
+    const cursorLabel = cursor.querySelector('.label');
+    const cursorEye = cursor.querySelector('.eye');
+
+    projectCards.forEach((card) => {
+      card.addEventListener('mouseenter', () => {
+        const isComingSoon = card.classList.contains('coming-soon-card');
+        cursorLabel.textContent = isComingSoon ? 'Coming Soon' : 'View Case Study';
+        cursorEye.style.display = isComingSoon ? 'none' : '';
+        cursor.classList.add('visible');
+      });
+      card.addEventListener('mouseleave', () => cursor.classList.remove('visible'));
+      card.addEventListener('mousemove', (e) => setPos(e.clientX, e.clientY));
+    });
   }
 
-  function setPos(x, y) {
-    mx = x;
-    my = y;
-    if (!raf) raf = requestAnimationFrame(moveCursor);
-  }
-
-  const cursorLabel = cursor.querySelector('.label');
-  const cursorEye = cursor.querySelector('.eye');
-
-  projectCards.forEach((card) => {
+  projectCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
-      const isComingSoon = card.classList.contains('coming-soon-card');
-      cursorLabel.textContent = isComingSoon ? 'Coming Soon' : 'View Case Study';
-      cursorEye.style.display = isComingSoon ? 'none' : '';
-      cursor.classList.add('visible');
+      card.style.transform = 'translateY(-5px)';
+      card.style.transition = 'transform 0.25s ease';
     });
-    card.addEventListener('mouseleave', () => cursor.classList.remove('visible'));
-    card.addEventListener('mousemove', (e) => setPos(e.clientX, e.clientY));
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0)';
+    });
+
+    card.addEventListener('click', () => {
+      const projectNameEl = card.querySelector('.project-name');
+      const projectName = projectNameEl ? projectNameEl.textContent : 'Unknown project';
+      console.log('Project clicked:', projectName);
+    });
   });
 
-  // Hide cursor when leaving the window (prevents a stuck cursor)
-  window.addEventListener('blur', () => cursor.classList.remove('visible'));
+  // Intersection Observer for scroll animations (only if cards exist)
+  if (projectCards.length) {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    projectCards.forEach(card => observer.observe(card));
+  }
+
+  // Sandbox sliders (supports multiple sliders on the same page)
+  document.querySelectorAll('.right').forEach((right) => {
+    const track = right.querySelector('.track');
+    const slides = right.querySelectorAll('.slide');
+    const dotsWrap = right.querySelector('.dots');
+
+    if (!track || !slides.length || !dotsWrap) return;
+
+    dotsWrap.innerHTML = '';
+    let current = 0;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'dot';
+      if (i === 0) dot.classList.add('active');
+
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+
+    const dots = dotsWrap.querySelectorAll('.dot');
+
+    function goTo(index) {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+      current = index;
+    }
+
+    goTo(0);
+  });
 }
 
-projectCards.forEach(card => {
-  card.addEventListener('mouseenter', () => {
-    card.style.transform = 'translateY(-5px)';
-    card.style.transition = 'transform 0.25s ease';
-  });
-
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'translateY(0)';
-  });
-
-  card.addEventListener('click', () => {
-    const projectNameEl = card.querySelector('.project-name');
-    const projectName = projectNameEl ? projectNameEl.textContent : 'Unknown project';
-    console.log('Project clicked:', projectName);
-  });
-});
-
-// Intersection Observer for scroll animations (only if cards exist)
-if (projectCards.length) {
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  projectCards.forEach(card => observer.observe(card));
-}
+initContentInteractions();
 
 // Social link interactions
 document.querySelectorAll('.social-link').forEach(link => {
@@ -155,16 +195,6 @@ document.querySelectorAll('.social-link').forEach(link => {
       link.style.transform = 'scale(1.08)';
     }, 100);
   });
-});
-
-// Add loading animation
-window.addEventListener('load', () => {
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.3s ease';
-
-  setTimeout(() => {
-    document.body.style.opacity = '1';
-  }, 100);
 });
 
 // Slot-machine hover: wrap nav link text into per-letter spans
@@ -230,82 +260,145 @@ function updateNYCTime() {
 updateNYCTime();
 setInterval(updateNYCTime, 1000);
 
-// Sandbox sliders (supports multiple sliders on the same page)
-document.querySelectorAll('.right').forEach((right) => {
-  const track = right.querySelector('.track');
-  const slides = right.querySelectorAll('.slide');
-  const dotsWrap = right.querySelector('.dots');
-
-  if (!track || !slides.length || !dotsWrap) return;
-
-  dotsWrap.innerHTML = '';
-  let current = 0;
-
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'dot';
-    if (i === 0) dot.classList.add('active');
-
-    dot.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(dot);
-  });
-
-  const dots = dotsWrap.querySelectorAll('.dot');
-
-  function goTo(index) {
-    track.style.transform = `translateX(-${index * 100}%)`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === index));
-    current = index;
-  }
-
-  goTo(0);
-});
-
-
-
-
-// Smooth page transitions between internal pages (desktop only).
-// Primary path: cross-document view transitions in styles.css — the
-// browser cross-fades only the content panel while the sidebar stays
-// static. Fallback path (no support): fade the content panel out via
-// JS, navigate, then fade back in with the pageEnter animation.
+// SPA-style navigation between internal pages (desktop only): fetch the
+// target page in the background and swap ONLY the right content panel.
+// The left sidebar element is never replaced, so it stays perfectly
+// still — no full-page reload, no black flash.
 (function () {
   const desktopView = window.matchMedia('(min-width: 769px)');
 
-  // Feature-detect cross-document view transitions: browsers that
-  // support them parse the @view-transition rule, others drop it.
-  let nativeVT = false;
-  try {
-    const probe = document.createElement('style');
-    probe.textContent = '@view-transition { navigation: auto; }';
-    document.head.appendChild(probe);
-    nativeVT = probe.sheet.cssRules.length > 0;
-    probe.remove();
-  } catch (err) {
-    nativeVT = false;
+  function duration() {
+    const raw = getComputedStyle(document.documentElement).getPropertyValue('--duration-page');
+    return parseFloat(raw) || 250;
   }
-  if (nativeVT) return; // native transitions handle everything
 
-  document.documentElement.classList.add('no-vt');
+  // Normalize URLs so "/", "/index.html" and "/index" compare equal.
+  function pageKey(url) {
+    let p = new URL(url, window.location.href).pathname.replace(/\.html$/, '');
+    if (p.endsWith('/index')) p = p.slice(0, -'index'.length);
+    return p;
+  }
 
-  // If the page is restored from the back/forward cache, clear the
-  // exit state so the content panel isn't stuck invisible.
-  window.addEventListener('pageshow', () => {
-    document.body.classList.remove('page-exit');
-  });
+  // Copy the active-link markers from the fetched page into the
+  // persistent sidebar nav and mobile menu.
+  function syncNavActive(doc) {
+    ['.sidebar__nav', '.nav-links'].forEach((sel) => {
+      const cur = document.querySelector(sel);
+      const next = doc.querySelector(sel);
+      if (!cur || !next) return;
+      const nextLinks = [...next.querySelectorAll('a[href]')];
+      [...cur.querySelectorAll('a[href]')].forEach((a) => {
+        const match = nextLinks.find((b) => b.getAttribute('href') === a.getAttribute('href'));
+        if (!match) return;
+        ['sidebar__nav-link--active', 'nav-link-active'].forEach((cls) => {
+          a.classList.toggle(cls, match.classList.contains(cls));
+        });
+      });
+    });
+  }
+
+  // Load stylesheets the next page needs that this one doesn't have yet
+  // (e.g. about.css) BEFORE the swap, so content never renders unstyled.
+  function syncStylesheets(doc) {
+    const have = new Set(
+      [...document.querySelectorAll('link[rel="stylesheet"]')].map((l) => l.getAttribute('href'))
+    );
+    const pending = [];
+    doc.querySelectorAll('link[rel="stylesheet"]').forEach((l) => {
+      const href = l.getAttribute('href');
+      if (!href || have.has(href)) return;
+      const clone = document.createElement('link');
+      clone.rel = 'stylesheet';
+      clone.href = href;
+      pending.push(new Promise((resolve) => {
+        clone.onload = resolve;
+        clone.onerror = resolve;
+      }));
+      document.head.appendChild(clone);
+    });
+    return Promise.all(pending);
+  }
+
+  // Re-run page-specific scripts (e.g. about.js) against the swapped-in
+  // content. script.js itself must not run twice.
+  function runPageScripts(doc) {
+    doc.querySelectorAll('script[src]').forEach((s) => {
+      const src = s.getAttribute('src');
+      if (!src || src.endsWith('script.js')) return;
+      const el = document.createElement('script');
+      el.src = src;
+      el.onload = () => el.remove();
+      el.onerror = () => el.remove();
+      document.body.appendChild(el);
+    });
+  }
+
+  let navigating = false;
+
+  async function loadPage(url, push) {
+    if (navigating) return;
+    const panel = document.querySelector('.content-panel');
+    if (!panel) {
+      window.location.href = url;
+      return;
+    }
+    navigating = true;
+
+    let doc = null;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+    } catch (err) {
+      window.location.href = url; // network trouble → normal navigation
+      return;
+    }
+
+    const nextPanel = doc.querySelector('.content-panel');
+    if (!nextPanel) {
+      window.location.href = url;
+      return;
+    }
+
+    // Fade the old panel out while any new stylesheets finish loading.
+    panel.classList.add('is-swapping');
+    await Promise.all([
+      syncStylesheets(doc),
+      new Promise((resolve) => setTimeout(resolve, duration()))
+    ]);
+
+    nextPanel.classList.add('is-swapping');
+    panel.replaceWith(nextPanel);
+
+    document.title = doc.title;
+    document.body.className = doc.body.className;
+    syncNavActive(doc);
+    initContentInteractions();
+    runPageScripts(doc);
+    if (push) history.pushState({ spa: true }, '', url);
+
+    // Commit the hidden state with a forced reflow, then remove the
+    // class so the opacity transition plays. (No rAF — that stalls in
+    // hidden/background tabs and would leave the panel invisible.)
+    void nextPanel.offsetWidth;
+    nextPanel.classList.remove('is-swapping');
+    navigating = false;
+  }
 
   document.querySelectorAll('.sidebar a[href$=".html"]').forEach((link) => {
     if (link.target === '_blank') return;
     link.addEventListener('click', (e) => {
       if (!desktopView.matches) return;
       e.preventDefault();
-      document.body.classList.add('page-exit');
-      const raw = getComputedStyle(document.documentElement).getPropertyValue('--duration-page');
-      const duration = parseFloat(raw) || 250;
-      setTimeout(() => {
-        window.location.href = link.getAttribute('href');
-      }, duration);
+      if (pageKey(link.href) === pageKey(window.location.href)) return; // already here
+      loadPage(link.getAttribute('href'), true);
     });
+  });
+
+  // Back/forward buttons re-use the same swap.
+  window.addEventListener('popstate', () => {
+    const page = window.location.pathname.split('/').pop() || 'index.html';
+    loadPage(page, false);
   });
 })();
 
