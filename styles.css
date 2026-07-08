@@ -92,7 +92,8 @@
   --radius-round: 50%;   /* circular avatars / dots */
 
   /* Layout */
-  --sidebar-width: 320px;  /* desktop left panel */
+  --sidebar-width: 320px;       /* desktop left panel */
+  --content-max-width: 1200px;  /* cap for right-panel content on wide screens */
 
   /* Motion */
   --duration-page: 250ms;  /* cross-page fade (always ms — script.js reads it) */
@@ -545,8 +546,8 @@ backdrop-filter: blur(10px);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--space-6);
-    margin-top: var(--space-8);
-    margin-bottom: var(--space-8);
+    max-width: var(--content-max-width);
+    margin: var(--space-8) auto;
   }
 
   .content-intro__left,
@@ -594,14 +595,17 @@ backdrop-filter: blur(10px);
     margin: 0;
   }
 
-  /* Project grid: 2 equal columns that fill all available space */
-  .projects-grid {
+  /* Project grid: 2 equal columns, capped and centered so the fixed
+     column gap doesn't balloon on wide screens. (.content-panel prefix
+     outranks the base .projects-grid rule later in the file.) */
+  .content-panel .projects-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--space-6);
-    row-gap: 40px;
+    row-gap: var(--space-12);
     width: 100%;
-    margin-bottom: 0;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
   }
 
   /* Cards: bare image on top, text below — no card padding */
