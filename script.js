@@ -260,6 +260,105 @@ function updateNYCTime() {
 updateNYCTime();
 setInterval(updateNYCTime, 1000);
 
+// Sliding active-page indicator: one persistent dot in the sidebar nav
+// that travels to the active link via transform (never `top`). It
+// stretches vertically / squeezes horizontally while moving — a bit
+// more for longer hops — then settles back into a perfect circle.
+// With prefers-reduced-motion it still moves, but without the stretch
+// and blur. Returns the update function so the SPA router below can
+// animate it on page switches (including back/forward).
+const updateNavIndicator = (function () {
+  const nav = document.querySelector('.sidebar__nav');
+  const indicator = nav ? nav.querySelector('.sidebar__nav-indicator') : null;
+  if (!nav || !indicator) return function () {};
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let lastY = null;
+  let settleTimer = null;
+  let onEnd = null;
+
+  function activeLink() {
+    return nav.querySelector('.sidebar__nav-link--active');
+  }
+
+  // Target position relative to the nav container: vertically centered
+  // on the active link, just to the right of its label text.
+  function targetFor(link) {
+    const navRect = nav.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    const range = document.createRange();
+    range.selectNodeContents(link);
+    const textRect = range.getBoundingClientRect();
+    return {
+      x: textRect.right - navRect.left + 8,
+      y: linkRect.top - navRect.top + (linkRect.height - indicator.offsetHeight) / 2
+    };
+  }
+
+  function settle(base) {
+    indicator.classList.remove('is-moving');
+    indicator.style.transform = base;
+  }
+
+  function update(animate) {
+    const link = activeLink();
+    if (!link || !nav.offsetParent) return; // sidebar hidden (mobile)
+
+    const { x, y } = targetFor(link);
+    const base = 'translate(' + x + 'px, ' + y + 'px)';
+    const distance = lastY === null ? 0 : Math.abs(y - lastY);
+    lastY = y;
+
+    if (onEnd) indicator.removeEventListener('transitionend', onEnd);
+    clearTimeout(settleTimer);
+
+    // First placement: position instantly (no slide in from the corner).
+    if (!indicator.classList.contains('is-ready')) {
+      indicator.style.transition = 'none';
+      settle(base);
+      void indicator.offsetWidth;
+      indicator.style.transition = '';
+      indicator.classList.add('is-ready');
+      return;
+    }
+
+    if (!animate || distance === 0 || reduceMotion.matches) {
+      settle(base);
+      return;
+    }
+
+    // Squash & stretch, scaled up slightly for longer travel.
+    const stretch = Math.min(1.9, 1.25 + distance / 220);
+    const squeeze = Math.max(0.72, 1 - (stretch - 1) * 0.3);
+
+    indicator.classList.add('is-moving');
+    indicator.style.transform = base + ' scale(' + squeeze + ', ' + stretch + ')';
+
+    onEnd = (e) => {
+      if (e.propertyName !== 'transform') return;
+      indicator.removeEventListener('transitionend', onEnd);
+      onEnd = null;
+      settle(base);
+    };
+    indicator.addEventListener('transitionend', onEnd);
+    // Fallback so the dot always rounds back (e.g. backgrounded tab).
+    settleTimer = setTimeout(() => {
+      if (onEnd) indicator.removeEventListener('transitionend', onEnd);
+      onEnd = null;
+      settle(base);
+    }, 700);
+  }
+
+  update(false);
+  // Re-measure once fonts load (label widths change) and on resize.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => update(false));
+  }
+  window.addEventListener('resize', () => update(false));
+
+  return update;
+})();
+
 // SPA-style navigation between internal pages (desktop only): fetch the
 // target page in the background and swap ONLY the right content panel.
 // The left sidebar element is never replaced, so it stays perfectly
@@ -373,6 +472,7 @@ setInterval(updateNYCTime, 1000);
     document.title = doc.title;
     document.body.className = doc.body.className;
     syncNavActive(doc);
+    updateNavIndicator(true);
     initContentInteractions();
     runPageScripts(doc);
     if (push) history.pushState({ spa: true }, '', url);

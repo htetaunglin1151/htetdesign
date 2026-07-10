@@ -96,7 +96,8 @@
   --content-max-width: 1200px;  /* cap for right-panel content on wide screens */
 
   /* Motion */
-  --duration-page: 250ms;  /* cross-page fade (always ms — script.js reads it) */
+  --duration-page: 250ms;       /* cross-page fade (always ms — script.js reads it) */
+  --duration-indicator: 380ms;  /* nav dot travel between pages */
 }
 
 body {
@@ -449,6 +450,7 @@ backdrop-filter: blur(10px);
     flex-shrink: 0;
     gap: 0;
     margin-top: 0;
+    position: relative; /* anchor for the sliding page indicator */
   }
 
   .sidebar__nav-link {
@@ -464,19 +466,34 @@ backdrop-filter: blur(10px);
     opacity: 0.7;
   }
 
-  /* Current-page indicator: white link text + tech-green dot on the right */
+  /* Current-page indicator: white link text; ONE persistent tech-green
+     dot slides to the active link (positioned by script.js via
+     transform) instead of being re-created on every page. While moving
+     it stretches vertically, squeezes horizontally, and blurs a touch;
+     at rest it's a perfect circle. */
   .sidebar__nav-link--active {
     color: var(--color-text-primary);
   }
-  .sidebar__nav-link--active::after {
-    content: "";
-    display: inline-block;
+
+  .sidebar__nav-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: var(--space-2);
     height: var(--space-2);
     border-radius: var(--radius-round);
     background: var(--color-accent);
-    margin-left: var(--space-2);
-    vertical-align: middle;
+    pointer-events: none;
+    opacity: 0; /* hidden until script.js places it (.is-ready) */
+    will-change: transform;
+    transition: transform 200ms ease, filter 150ms ease, opacity 150ms ease;
+  }
+  .sidebar__nav-indicator.is-ready {
+    opacity: 1;
+  }
+  .sidebar__nav-indicator.is-moving {
+    transition: transform var(--duration-indicator) cubic-bezier(0.3, 0.7, 0.1, 1), filter 120ms ease;
+    filter: blur(1px);
   }
 
   .sidebar__footer {
