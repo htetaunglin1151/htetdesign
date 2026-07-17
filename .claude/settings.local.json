@@ -11,7 +11,9 @@
       "mcp__figma__get_variable_defs",
       "Bash(grep -n \"</main>\\\\|</div>\\\\s*$\\\\|<script\" /d/Htet_Portfolio/about.html /d/Htet_Portfolio/sandbox.html)",
       "Bash(git mv *)",
-      "Bash(awk 'NR>=1430 && NR<=1472 && /@media|^}/ {print NR\": \"$0}' \"D:\\\\Htet_Portfolio\\\\about.css\")"
+      "Bash(awk 'NR>=1430 && NR<=1472 && /@media|^}/ {print NR\": \"$0}' \"D:\\\\Htet_Portfolio\\\\about.css\")",
+      "Bash(awk 'NR>=375 && NR<=642' about.css)",
+      "Read(//c/Users/MSI-/AppData/Local/Temp/claude/D--Htet-Portfolio/6fff4495-420e-4f6b-8d1d-1b0cd530bf3c/scratchpad/**)"
     ]
   }
 }

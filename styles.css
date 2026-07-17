@@ -64,6 +64,12 @@
 
   /* Aspect ratios */
   --ratio-gallery: 4 / 3;  /* Gallery — sandbox photo gallery slides */
+  --ratio-ticket: 16 / 9;  /* Ticket — About concert ticket flip card */
+
+  /* Concert ticket (About — flip card) */
+  --color-ticket-cream: #F2E9DC;         /* Ticket Cream — ticket face */
+  --color-ticket-ink: var(--color-bg);   /* Ticket Ink — black text/borders on cream (aliases Background) */
+  --color-ticket-stain: #7A5C3E;         /* Ticket Stain — sepia aging on the paper texture */
 
   /* =============================================================
      IMPLEMENTATION EXTRAS
