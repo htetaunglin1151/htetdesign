@@ -17,6 +17,8 @@
   --color-text-primary: #FFFFFF;    /* Text Primary */
   --color-text-secondary: #B2B2B2;  /* Text Secondary */
   --color-accent: #34DA30;          /* Tech Green */
+  --color-divider: #1D2124;         /* Divider (matches Surface — never white) */
+  --color-surface-light: #FFFFFF;   /* Surface Light — backdrop for artwork that needs it */
 
   /* Type families */
   --font-display: 'Familjen Grotesk', sans-serif;  /* H1, H2 */
@@ -59,6 +61,9 @@
   --radius-md: 12px;     /* Medium */
   --radius-lg: 16px;     /* Large */
   --radius-pill: 999px;  /* Pill */
+
+  /* Aspect ratios */
+  --ratio-gallery: 4 / 3;  /* Gallery — sandbox photo gallery slides */
 
   /* =============================================================
      IMPLEMENTATION EXTRAS
@@ -685,6 +690,14 @@ backdrop-filter: blur(10px);
   text-decoration: none;
 }
 
+/* External nav links (e.g. Blog): 45° up-right arrow after the label,
+   on both the mobile header nav and the desktop sidebar nav */
+.nav-link[target="_blank"]::after,
+.sidebar__nav-link[target="_blank"]::after {
+  content: '↗';
+  margin-left: var(--space-1);
+}
+
 .nav-link.slot {
   color: var(--muted);
   text-decoration: none;
@@ -846,9 +859,9 @@ main {
 }
 
 .hero-text {
-  font-size: var(--fs-base);
+  font-size: var(--fs-body);
   color: var(--muted);
-  line-height: 1.25;
+  line-height: var(--lh-body);
 }
 
 .company {
@@ -1064,7 +1077,7 @@ main {
 
 .left p {
   color: var(--text);
-  font-size: var(--fs-base);
+  font-size: var(--fs-body);
   line-height: var(--lh-snug);
 }
 
@@ -1147,7 +1160,7 @@ main {
 /* End of Sandbox Page */
 .divider {
   height: 1px;
-  background: var(--muted);
+  background: var(--color-divider);
   margin: 56px 0;
 }
 
@@ -1158,7 +1171,7 @@ main {
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  padding: 0 2rem 3rem;
+  padding: 0 var(--space-8) var(--space-12);
 }
 
 .sandbox-embed-section {
@@ -1175,10 +1188,10 @@ main {
 
 .sandbox-embed-section__desc {
   font-family: var(--font-sans);
-  font-size: var(--fs-base);
+  font-size: var(--fs-body);
   color: var(--muted);
-  line-height: var(--lh-base);
-  margin: 0 0 2rem;
+  line-height: var(--lh-body);
+  margin: 0 0 var(--space-8);
   max-width: 680px;
 }
 
@@ -1201,6 +1214,101 @@ main {
   border: 0;
 }
 
+/* Sandbox projects (mobile only): each project is a title + brief
+   description + swipeable photo gallery, separated by a divider.
+   The top border divides the page intro from the first project. */
+.sandbox-projects {
+  display: none;
+  border-top: 1px solid var(--color-divider);
+  padding-top: var(--space-8);
+}
+
+.sandbox-project {
+  border-bottom: 1px solid var(--color-divider);
+  padding-bottom: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.sandbox-project__title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-h3);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-6);
+}
+
+.sandbox-project__desc {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-6);
+}
+
+/* Photo gallery: browse by swiping left/right — native scroll snap
+   keeps the motion smooth and momentum-driven, no JS involved */
+.sandbox-gallery {
+  width: 100%;
+}
+
+.sandbox-gallery__track {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.sandbox-gallery__track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Swipe cue below the photos (same pattern as the About page's
+   journey section) */
+.sandbox-gallery::after {
+  content: '← swipe →';
+  display: block;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-2);
+}
+
+/* No cue when there's only one photo — nothing to swipe to */
+.sandbox-gallery:has(.sandbox-gallery__slide:only-child)::after {
+  content: none;
+}
+
+.sandbox-gallery__slide {
+  flex: 0 0 100%;
+  margin: 0;
+  scroll-snap-align: start;
+  aspect-ratio: var(--ratio-gallery);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-bg);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.sandbox-gallery__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Light variant: white backdrop for artwork designed on white */
+.sandbox-gallery--light .sandbox-gallery__slide {
+  background: var(--color-surface-light);
+}
+
 .under-construction {
   text-align: center;
   max-width: 480px;
@@ -1221,7 +1329,7 @@ main {
 
 .under-construction__sub {
   color: var(--muted-2);
-  font-size: var(--fs-base);
+  font-size: var(--fs-body);
 }
 
 /* Footer */
@@ -1359,8 +1467,6 @@ main {
 
   .content-intro__title   { font-size: 1.625rem; }
   .content-intro__tagline { font-size: 1.375rem; }
-
-  .hero-text { font-size: 1.25rem; }
 }
 
 /* Mobile */
@@ -1375,6 +1481,21 @@ main {
 
   .hero        { display: flex; }
   .page-footer { display: block; }
+
+  /* Sandbox: drop the extra horizontal padding so the text shares the
+     nav bar's edges (both are inset by the content-panel padding), and
+     show the swipeable project galleries instead of the Figma embed */
+  .sandbox-main {
+    padding: 0 0 var(--space-12);
+  }
+
+  .sandbox-page .figma-embed-wrapper {
+    display: none;
+  }
+
+  .sandbox-projects {
+    display: block;
+  }
 
   .mobile-header {
     display: block;
@@ -1452,7 +1573,7 @@ main {
     flex-direction: column;
     padding: var(--space-8) var(--space-4);
     gap: var(--space-8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--color-divider);
   }
 
   .mobile-header .nav-links.open {
@@ -1519,9 +1640,15 @@ main {
     margin-bottom: var(--space-3);
   }
 
-  .social-link {
+  /* No circles around social icons on mobile — icon only (the 48px
+     box is kept as the touch target) */
+  .social-link,
+  .social-link:hover {
     width: 48px;
     height: 48px;
+    background: none;
+    border: none;
+    border-radius: 0;
   }
 
   .social-link svg {
@@ -1533,10 +1660,6 @@ main {
 @media (max-width: 480px) {
   .hero h1 {
     font-size: var(--fs-h2);
-  }
-
-  .hero-text {
-    font-size: var(--fs-base);
   }
 }
 
@@ -1555,7 +1678,6 @@ main {
   }
 
   .hero-text {
-    font-size: 24px;
     max-width: 65ch;
   }
 

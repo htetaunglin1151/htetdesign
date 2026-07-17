@@ -183,6 +183,7 @@ function initContentInteractions() {
 
     goTo(0);
   });
+
 }
 
 initContentInteractions();

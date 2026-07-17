@@ -9,7 +9,9 @@
       "Bash(grep -vE \"color-black|color-white|color-accent|--text|--muted|--text-on-glass|--surface-veil|--glass|--shadow|--font-|--fs-|--lh-|--space-|--radius-|Design tokens|single source|Prefer these|Color primitives|Text$|Surfaces|Type families|Type sizes|Line heights|Spacing scale|Radius$|captions|supporting|sidebar body|16px —|24px —|32px —|headings|body copy|─────\")",
       "Bash(grep -v '^$')",
       "mcp__figma__get_variable_defs",
-      "Bash(grep -n \"</main>\\\\|</div>\\\\s*$\\\\|<script\" /d/Htet_Portfolio/about.html /d/Htet_Portfolio/sandbox.html)"
+      "Bash(grep -n \"</main>\\\\|</div>\\\\s*$\\\\|<script\" /d/Htet_Portfolio/about.html /d/Htet_Portfolio/sandbox.html)",
+      "Bash(git mv *)",
+      "Bash(awk 'NR>=1430 && NR<=1472 && /@media|^}/ {print NR\": \"$0}' \"D:\\\\Htet_Portfolio\\\\about.css\")"
     ]
   }
 }
