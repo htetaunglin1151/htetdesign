@@ -19,6 +19,7 @@ Use semantic color tokens:
 - Tech Green #34DA30
 - Divider #1D2124 (`--color-divider`, matches Surface — never white)
 - Surface Light #FFFFFF (`--color-surface-light`) — light backdrop for artwork that needs it (e.g. white-background GIFs)
+- Scrim rgba(0, 0, 0, 0.55) (`--color-scrim`) — translucent backdrop for controls overlaid on media (e.g. video buttons)
 - Ticket Cream #F2E9DC (`--color-ticket-cream`) — About concert ticket card face
 - Ticket Ink #000000 (`--color-ticket-ink`, aliases Background) — About concert ticket text and borders
 - Ticket Stain #7A5C3E (`--color-ticket-stain`) — sepia aging tint on the ticket's paper texture
@@ -83,6 +84,7 @@ Pill = 999
 Use only:
 Gallery = 4:3 (`--ratio-gallery`) — sandbox photo gallery slides
 Ticket = 16:9 (`--ratio-ticket`) — About concert ticket flip card
+Video = 4:3 (`--ratio-video`) — About content creation video crop
 
 ## AI Instructions
 When updating code:

@@ -19,6 +19,7 @@
   --color-accent: #34DA30;          /* Tech Green */
   --color-divider: #1D2124;         /* Divider (matches Surface — never white) */
   --color-surface-light: #FFFFFF;   /* Surface Light — backdrop for artwork that needs it */
+  --color-scrim: rgba(0, 0, 0, 0.55); /* Scrim — translucent backdrop for controls overlaid on media */
 
   /* Type families */
   --font-display: 'Familjen Grotesk', sans-serif;  /* H1, H2 */
@@ -65,6 +66,7 @@
   /* Aspect ratios */
   --ratio-gallery: 4 / 3;  /* Gallery — sandbox photo gallery slides */
   --ratio-ticket: 16 / 9;  /* Ticket — About concert ticket flip card */
+  --ratio-video: 4 / 3;    /* Video — About content creation video crop */
 
   /* Concert ticket (About — flip card) */
   --color-ticket-cream: #F2E9DC;         /* Ticket Cream — ticket face */

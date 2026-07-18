@@ -429,3 +429,45 @@
   window.addEventListener('resize', layout);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => layout());
 })();
+
+// Mobile About: Content Creation video — overlay mute and play/pause controls
+(function () {
+  const wrap = document.getElementById('aboutVideo');
+  if (!wrap) return;
+
+  const video = wrap.querySelector('.about-video__player');
+  const muteBtn = wrap.querySelector('.about-video__btn--mute');
+  const playBtn = wrap.querySelector('.about-video__btn--play');
+
+  // Progress ring around play/pause: dashoffset shrinks with playback
+  const ring = wrap.querySelector('.about-video__ring-progress');
+  const ringLen = ring.getTotalLength();
+  ring.style.strokeDasharray = ringLen;
+  ring.style.strokeDashoffset = ringLen;
+  video.addEventListener('timeupdate', () => {
+    if (!video.duration) return;
+    ring.style.strokeDashoffset = ringLen * (1 - video.currentTime / video.duration);
+  });
+
+  muteBtn.addEventListener('click', () => {
+    video.muted = !video.muted;
+    wrap.classList.toggle('is-unmuted', !video.muted);
+    muteBtn.setAttribute('aria-label', video.muted ? 'Unmute video' : 'Mute video');
+  });
+
+  playBtn.addEventListener('click', () => {
+    if (video.paused) video.play();
+    else video.pause();
+  });
+
+  // Icons follow the element's real playback state (autoplay may be blocked)
+  video.addEventListener('play', () => {
+    wrap.classList.remove('is-paused');
+    playBtn.setAttribute('aria-label', 'Pause video');
+  });
+  video.addEventListener('pause', () => {
+    wrap.classList.add('is-paused');
+    playBtn.setAttribute('aria-label', 'Play video');
+  });
+  if (video.paused) wrap.classList.add('is-paused');
+})();
