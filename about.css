@@ -47,7 +47,9 @@
     max-width: none;
     margin-left: auto;
     margin-right: auto;
-    padding: 6.75rem 0 2.5rem;
+    /* .content-panel's own top padding already clears the fixed header,
+       so only a small extra gap is needed here */
+    padding: 0.75rem 0 2.5rem;
     /* No side padding: .content-panel's 16px gutter is the single source
        of truth, so sections share the mobile nav bar's exact width */
   }
@@ -98,45 +100,11 @@
     margin-bottom: 0;
   }
 
-  .polaroid-stack--mobile {
-    width: 240px;
-    max-width: none;
-  }
-
-  .polaroid--mobile {
-    padding: 10px 10px 50px;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 3px;
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.12),
-      0 12px 32px rgba(0, 0, 0, 0.22);
-    transform: rotate(-10.58deg);
-    transition: transform 0.35s ease;
-    transform-origin: center center;
-    will-change: transform;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .polaroid--mobile:hover {
-      transform: rotate(-14deg);
-    }
-  }
-
-  .polaroid-frame--mobile {
+  /* Double class beats the later `@media (max-width: 900px) .polaroid-stack`
+     260px cap, which is meant for the desktop section only */
+  .polaroid-stack.polaroid-stack--mobile {
     width: 100%;
-    aspect-ratio: 1;
-    margin: 0 auto;
-    overflow: hidden;
-    background: #0a0a0a;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-  }
-
-  .polaroid-frame--mobile img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+    max-width: 100%;
   }
 
 
@@ -1244,32 +1212,107 @@
 .polaroid-stack {
   width: 100%;
   max-width: 520px;
+  perspective: 900px;
 }
 
-.polaroid {
+/* ── Profile card (MTA card) — transparent bg, tilt + light-ray sweep ── */
+.profile-card {
   position: relative;
-  background: #ffffff;
-  padding: 14px 14px 72px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.12),
-    0 10px 28px rgba(0, 0, 0, 0.18);
-  transform: rotate(-4deg);
+  background: transparent;
+  border-radius: 18px 0 18px 18px; /* every corner rounded except top-right */
+  overflow: hidden;                /* clips the ray + every effect inside the card */
+  isolation: isolate;
+  /* drop-shadow (unlike box-shadow) follows the image's transparent cut corner */
+  filter:
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12))
+    drop-shadow(0 10px 28px rgba(0, 0, 0, 0.18));
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y; /* card tilts on press but the page can still scroll */
 }
 
-.polaroid-frame {
-  overflow: hidden;
-  background: #0a0a0a;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+.profile-card.is-tilting {
+  transition: transform 0.15s ease-out;
 }
 
-.polaroid-frame img {
+.profile-card img {
   width: 100%;
-  height: auto;
+  height: auto; /* original aspect ratio preserved */
   display: block;
-  aspect-ratio: 1;
-  object-fit: cover;
+  border-radius: inherit;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* Masks the ray with the PNG's own alpha channel, so the light
+   never spills into the transparent cut corner of the card */
+.profile-card__ray-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  -webkit-mask-image: url("images/MTA_Profile.png");
+  mask-image: url("images/MTA_Profile.png");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.profile-card__ray {
+  position: absolute;
+  top: -25%;
+  bottom: -25%;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.22) 40%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.22) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-160%) skewX(-18deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.profile-card.is-sweeping .profile-card__ray {
+  animation: profile-ray-sweep 2.8s ease-in-out forwards;
+}
+
+@keyframes profile-ray-sweep {
+  0% {
+    transform: translateX(-160%) skewX(-18deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(340%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-card,
+  .profile-card.is-tilting {
+    transition: none;
+    transform: none !important;
+  }
+
+  .profile-card.is-sweeping .profile-card__ray {
+    animation: none;
+  }
 }
 
 .design-content {

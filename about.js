@@ -471,3 +471,81 @@
   });
   if (video.paused) wrap.classList.add('is-paused');
 })();
+
+
+/* ============================================================
+   Profile card — pointer tilt + diagonal light-ray sweep
+   (Pointer Events: works for mouse, touch, and stylus)
+   ============================================================ */
+(() => {
+  const cards = document.querySelectorAll('.profile-card');
+  if (!cards.length) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const MAX_TILT = 7; // degrees — keep it subtle
+
+  cards.forEach((card) => {
+    const ray = card.querySelector('.profile-card__ray');
+    let raf = null;
+
+    const applyTilt = (clientX, clientY) => {
+      const r = card.getBoundingClientRect();
+      const px = Math.min(Math.max((clientX - r.left) / r.width, 0), 1) * 2 - 1;
+      const py = Math.min(Math.max((clientY - r.top) / r.height, 0), 1) * 2 - 1;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        card.style.transform =
+          'perspective(900px) rotateX(' + (-py * MAX_TILT).toFixed(2) + 'deg)' +
+          ' rotateY(' + (px * MAX_TILT).toFixed(2) + 'deg)';
+      });
+    };
+
+    const resetTilt = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+      card.classList.remove('is-tilting');
+      card.style.transform = '';
+    };
+
+    const sweep = () => {
+      if (reduceMotion.matches || card.classList.contains('is-sweeping')) return;
+      card.classList.add('is-sweeping');
+    };
+    if (ray) {
+      ray.addEventListener('animationend', () => card.classList.remove('is-sweeping'));
+    }
+
+    // Desktop: hover starts the ray, cursor position drives the tilt
+    card.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      sweep();
+    });
+
+    // Mobile / stylus: press starts the ray and tilts toward the touch point
+    card.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse') return;
+      sweep();
+      if (reduceMotion.matches) return;
+      card.classList.add('is-tilting');
+      applyTilt(e.clientX, e.clientY);
+    });
+
+    card.addEventListener('pointermove', (e) => {
+      if (reduceMotion.matches) return;
+      if (e.pointerType === 'mouse') {
+        card.classList.add('is-tilting');
+        applyTilt(e.clientX, e.clientY);
+      } else if (card.classList.contains('is-tilting')) {
+        applyTilt(e.clientX, e.clientY);
+      }
+    });
+
+    card.addEventListener('pointerleave', resetTilt);
+    card.addEventListener('pointercancel', resetTilt);
+    card.addEventListener('pointerup', (e) => {
+      if (e.pointerType !== 'mouse') resetTilt();
+    });
+
+    card.addEventListener('dragstart', (e) => e.preventDefault());
+  });
+})();
