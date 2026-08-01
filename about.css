@@ -1269,12 +1269,14 @@
   bottom: -25%;
   left: 0;
   width: 22%;
+  /* 90deg so the falloff reaches true transparent exactly at the element's
+     edges (no hard cut-off); the diagonal tilt comes from skewX alone */
   background: linear-gradient(
-    105deg,
+    90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.22) 40%,
-    rgba(255, 255, 255, 0.4) 50%,
-    rgba(255, 255, 255, 0.22) 60%,
+    rgba(255, 255, 255, 0.25) 38%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0.25) 62%,
     rgba(255, 255, 255, 0) 100%
   );
   transform: translateX(-160%) skewX(-18deg);
