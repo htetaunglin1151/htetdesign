@@ -1268,7 +1268,7 @@
   top: -25%;
   bottom: -25%;
   left: 0;
-  width: 45%;
+  width: 22%;
   background: linear-gradient(
     105deg,
     rgba(255, 255, 255, 0) 0%,
@@ -1298,7 +1298,7 @@
     opacity: 1;
   }
   100% {
-    transform: translateX(340%) skewX(-18deg);
+    transform: translateX(560%) skewX(-18deg);
     opacity: 0;
   }
 }
